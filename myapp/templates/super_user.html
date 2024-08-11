@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product List</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    
+
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Product List</h1>
+        <form action="{% url 'authen:logout' %}" method="post" >
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+        </form>
+        <form method='Post' action="{% url 'myapp:super_user' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+        <table id="productTable" class="display">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Image</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if not modify %}
+                <td></td>
+                <td><input type="text" name='nom'></td>
+                    <td><input type="number" name='prix'></td>
+                    <td><input type="number" min="1" step="1" name='quantite'></td>
+                    <td><input type="file" name='image'></td>
+                    <td><button name='save'>save</button></td>
+
+                {% endif %}
+               
+                {% for product in produit %}
+
+                {% if product.id == id %} 
+
+                <tr>
+                    <td>{{ product.id }}</td>
+                    <td><input type="text" name='nom' value="{{ product.nom }}"></td>
+                    <td><input type="number" name='prix' value={{ product.prix }}></td>
+                    <td><input type="number" min="1" step="1" name='quantite' value={{ product.quantite }}></td>
+                    <td><input type="file" name='image' value={{ product.image.url }}></td>
+                    <td><button name='save' value="{{ product.id }}">save</button></td>
+                </tr>
+
+                
+                {% else %}
+                    <tr>
+                        <td>{{ product.id }}</td>
+                        <td>{{ product.nom }}</td>
+                        <td>{{ product.prix }}</td>
+                        <td>{{ product.quantite }}</td>
+                        <td><img src="{{product.image.url}}" alt="test"></td>
+                        <td>
+                            <button name='modify' value={{ product.id }}>Modify</button>
+                        <button name='delete' value={{ product.id }}>delete</button>
+                        </td>
+                    </tr>
+                    {%endif%}
+                {% endfor %}
+            </tbody>
+        </table>
+    </form>
+    </div>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#productTable').DataTable();
+        });
+    </script>
+    <script src="{% static 'javascript/script.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{% extends 'link.html' %}
+{% block content %}
+<a href="{% url 'learning_logs:greeting' %}">Topics</a>
+<h1>topic : {{ topic.text }}</h1>
+<ul>
+{% for entry in entries %}
+<li>{{ entry.text }}</li>
+{% empty %}
+<li>No entry has been added yet related to this topic</li>
+{% endfor %}
+</ul>
+
+{% endblock content %}
+{% comment %}
+this is a comment 
+{% endcomment %}
