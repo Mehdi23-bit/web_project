@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shipping Information</title>
+  <style>
+    /* Global Styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Header Styles */
+    header {
+      background-color: #333;
+      color: #fff;
+      padding: 1rem;
+    }
+
+    /* Form Styles */
+    .shipping-info {
+      max-width: 600px;
+      margin: 2rem auto;
+      padding: 1.5rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .shipping-info label {
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .shipping-info input,
+    .shipping-info select {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      font-size: 1rem;
+    }
+
+    .shipping-info button {
+      display: block;
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 3px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    .shipping-info button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  {% include "header.html" %}
+  <form action="{% url "myapp:update_ship" %}" method="post">
+        {% csrf_token %}
+    <div class="shipping-info">
+        <h1>Shipping informations</h1>
+        {{form.as_p}}
+        <input type="submit" name="submit" id="submit">
+  </form>
+  
+  </div>
+</body>
+</html>

@@ -27,6 +27,7 @@
                     <th>Name</th>
                     <th>Price</th>
                     <th>Quantity</th>
+                    <th>category</th>
                     <th>Image</th>
                     <th>Action</th>
                 </tr>
@@ -37,6 +38,12 @@
                 <td><input type="text" name='nom'></td>
                     <td><input type="number" name='prix'></td>
                     <td><input type="number" min="1" step="1" name='quantite'></td>
+                    <td><select name="category" id="category">
+                        <option value="chair">chair</option>
+                        <option value="table">table</option>
+                        <option value="shelving">shelving</option>
+                        <option value="sofa">sofa</option>
+                    </select></td>
                     <td><input type="file" name='image'></td>
                     <td><button name='save'>save</button></td>
 
@@ -51,6 +58,12 @@
                     <td><input type="text" name='nom' value="{{ product.nom }}"></td>
                     <td><input type="number" name='prix' value={{ product.prix }}></td>
                     <td><input type="number" min="1" step="1" name='quantite' value={{ product.quantite }}></td>
+                    <td><select name="category" id="category" value="{{ product.category }}">
+                        <option value="chair">chair</option>
+                        <option value="table">table</option>
+                        <option value="shelving">shelving</option>
+                        <option value="sofa">sofa</option>
+                    </select></td>
                     <td><input type="file" name='image' value={{ product.image.url }}></td>
                     <td><button name='save' value="{{ product.id }}">save</button></td>
                 </tr>
@@ -62,6 +75,7 @@
                         <td>{{ product.nom }}</td>
                         <td>{{ product.prix }}</td>
                         <td>{{ product.quantite }}</td>
+                        <td>{{ product.category }}</td>
                         <td><img src="{{product.image.url}}" alt="test"></td>
                         <td>
                             <button name='modify' value={{ product.id }}>Modify</button>

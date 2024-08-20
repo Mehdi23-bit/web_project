@@ -3,10 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+<link rel="stylesheet" href="{% static "css/profile.css" %}">
     <title>Document</title>
 </head>
 <body>
-    <div class="account hidden_container">
+    {% include "header.html" %}
+    <div class="account">
        
         <div class="content">
             <span class='span1'>Orders</span>
@@ -57,5 +60,36 @@
 
 
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const account_list = document.querySelectorAll('.content span');
+            const accountUpdate = document.querySelector('.account_update');
+            const orderHistory = document.querySelector('.order_history');
+    
+            account_list.forEach((item) => {
+                item.addEventListener("click", () => {
+                    account_list.forEach(i => {
+                        i.classList.remove('border');
+                        i.classList.remove('active');
+                    });
+                    item.classList.add('border');
+                    // Delay adding the 'active' class to trigger the animation
+                    setTimeout(() => {
+                        item.classList.add('active');
+                    }, 10);
+    
+                    // Toggle visibility of account update and order history
+                    if (item.classList.contains('span1')) {
+                        accountUpdate.classList.add('hidden_container');
+                        orderHistory.classList.remove('hidden_container');
+                    } else if (item.classList.contains('span2')) {
+                        accountUpdate.classList.remove('hidden_container');
+                        orderHistory.classList.add('hidden_container');
+                    }
+                });
+            });
+        });
+    </script>
+    
 </body>
 </html>

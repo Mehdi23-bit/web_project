@@ -15,56 +15,7 @@ body {
 
 }
 
-svg {
-    width: 40px;
-    height: 40px;
-}
 
-header {
-    display: flex;
-    align-items: center;
-    margin: 20px 0;
-    justify-content:space-between;
-    background-color: #000;
-    color: white;
-    margin-top: 0;
-    position:fixed;
-    width: 100%;
-    z-index: 1000;
-}
-header h1{
-    font-family: "Poppins", sans-serif;
-    font-weight: 700;
-    font-style: normal;
-    margin-left: 10px;
-}
-header .personal{
-    width: 150px;
-    display: flex;
-    align-items: center;
-    margin-right: 30px;
-    justify-content:space-between;
-}
-
-header .icon-cart {
-    position: relative;
-    margin-right:0;
-    cursor: pointer;
-}
-
-header .icon-cart span {
-    display: flex;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    align-items: center;
-    justify-content: center;
-    background-color: red;
-    color: white;
-    position: absolute;
-    right: -15px;
-    top: 20px;
-}
 
 .list-product {
     display: grid;
@@ -74,6 +25,7 @@ header .icon-cart span {
 
 .list-product .item img {
     width: 90%;
+    height: 237px;
     filter: drop-shadow(0 50px 20px #0009);
 }
 

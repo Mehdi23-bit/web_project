@@ -1,0 +1,57 @@
+
+        body {
+            margin: 0;
+            padding-top: 80px; /* Add padding to body to prevent content from being hidden behind the fixed header */
+        }
+        svg {
+            width: 40px;
+            height: 40px;
+            color: white;
+        }
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #000;
+            color: white;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 80px; /* Set a fixed height for the header */
+            z-index: 1000;
+            padding: 0 20px; /* Add some horizontal padding */
+            box-sizing: border-box; /* Include padding in the width calculation */
+        }
+        header h1 {
+            font-family: "Poppins", sans-serif;
+            font-weight: 700;
+            font-style: normal;
+            margin: 0; /* Remove default margin */
+        }
+        header .personal {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: auto; /* Allow it to adjust based on content */
+            gap: 20px; /* Add space between icons */
+        }
+        header .icon-cart {
+            position: relative;
+            cursor: pointer;
+        }
+        header .icon-cart span {
+            display: flex;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            align-items: center;
+            justify-content: center;
+            background-color: red;
+            color: white;
+            position: absolute;
+            right: -5px;
+            top: 20px;
+            font-size: 12px;
+        }
+   

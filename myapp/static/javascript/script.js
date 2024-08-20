@@ -1,5 +1,5 @@
 
-let icon_cart=document.querySelector('.icon-cart')
+/*let icon_cart=document.querySelector('.icon-cart')
 
 
 let cartTab=document.querySelector('.cartTab')
@@ -25,7 +25,7 @@ close_btn.addEventListener('click',()=>{
 
 let spans=[]
 
-addtocards.forEach(addtocard=>{
+/*addtocards.forEach(addtocard=>{
     addtocard.addEventListener('click', (event) => {
     let parent = event.target.parentElement;
     let children = parent.children;
@@ -153,4 +153,4 @@ account_list.forEach((item) => {
             item.classList.add('active');
         }, 10);
     });
-});
+});*/

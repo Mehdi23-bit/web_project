@@ -1,0 +1,100 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .cart-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .product-image {
+            width: 100px;
+            height: auto;
+        }
+        .product-details {
+            display: flex;
+            align-items: center;
+        }
+        .product-info {
+            margin-left: 20px;
+        }
+        .quantity-input {
+            width: 50px;
+            text-align: center;
+        }
+        .remove-link {
+            color: #777;
+            text-decoration: none;
+        }
+        .total {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="cart-container">
+        <h1>Cart</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for key, item in cart.get_prod.items %}
+                <tr>
+                    <td>
+                        <div class="product-details">
+                            <img src="{{ item.url }}" alt="{{ item.name }}" class="product-image">
+                            <div class="product-info">
+                                <h3>{{ item.name }}</h3>
+                                <p>${{ item.price }} USD</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <select name="quantity" class="quantity">
+                            <option value="1" {% if item.qte == 1 %}selected{% endif %}>1</option>
+                            <option value="2" {% if item.qte == 2 %}selected{% endif %}>2</option>
+                            <option value="3" {% if item.qte == 3 %}selected{% endif %}>3</option>
+                            <option value="4" {% if item.qte == 4 %}selected{% endif %}>4</option>
+                            <option value="5" {% if item.qte == 5 %}selected{% endif %}>5</option>
+                        </select>
+                        <a href="#" class="remove-link">Remove</a>
+                    </td>
+                    <td class="total">${{ item.total }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

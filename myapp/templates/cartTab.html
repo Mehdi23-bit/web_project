@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Shop Cart</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <style>
+        header h1{
+            color:white;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .cart-container {
+            display: flex;
+            gap: 20px;
+        }
+        .cartTab {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            flex: 2;
+        }
+        .bill-summary {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            flex: 1;
+            height: fit-content;
+        }
+        h1, h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        .item-details {
+            display: flex;
+            align-items: center;
+        }
+        .item-details img {
+            width: 60px;
+            height: auto;
+            margin-right: 15px;
+        }
+        .item-info h3 {
+            margin: 0 0 5px 0;
+            font-size: 16px;
+        }
+        .price {
+            font-weight: bold;
+            color: #4CAF50;
+        }
+        .quantity select {
+            padding: 5px;
+            margin-right: 10px;
+        }
+        .update {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .update:hover {
+            background-color: #45a049;
+        }
+        .total {
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .checkout-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            width: 50%;
+            margin-top: 20px;
+        }
+        .checkout-btn:hover {
+            background-color: #45a049;
+        }
+        .btn{
+            display: flex;
+        }
+        .checkout-btn:nth-child(2) {
+            background-color: blue;
+          }
+    </style>
+</head>
+<body>
+    {% include "header.html" %}
+    <div class="cart-container">
+        <div class="cartTab" id="cartTab">
+            <h1>Cart</h1>
+            <div class="list" id='shop_cart'>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for key, item in cart.get_prod.items %}
+                
+                            <tr>
+                                <td>
+                                    <div class="item-details">
+                                        <img src="{{ item.img }}" alt="{{ item.name }}">
+                                        <div class="item-info">
+                                            <h3>{{ item.name }}</h3>
+                                            <div class="price">${{ item.price }} USD</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="quantity">
+                                        <select name="quantity" class="quantity">
+                                            <option value="1" {% if item.qte == 1 %}selected{% endif %}>1</option>
+                                            <option value="2" {% if item.qte == 2 %}selected{% endif %}>2</option>
+                                            <option value="3" {% if item.qte == 3 %}selected{% endif %}>3</option>
+                                            <option value="4" {% if item.qte == 4 %}selected{% endif %}>4</option>
+                                            <option value="5" {% if item.qte == 5 %}selected{% endif %}>5</option>
+                                        </select>
+                                        <button class="update" value="{{ item.id }}">Update</button>
+                                    </div>
+                                </td>
+                                <td class="total">{{item.total}}
+                                    <button class="delete" value="{{ item.id }}">delete</button>
+                                </td>
+                                
+                            </tr>
+                            {% endfor %}
+                        
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="bill-summary">
+            <h2>Order Summary</h2>
+            <div id="subtotal">Subtotal: ${{ cart.tot_al.total }}</div>
+            <div id="tax">Tax: ${{ cart.tax }}</div>
+            <div id="total">Total: ${{ cart.tot_al.taxed_total }}</div>
+            <div class="btn">
+                <button class="checkout-btn">Proceed to Checkout</button>
+              <a href="{% url "myapp:shipping_info" %}"><button  class="checkout-btn">shipping information</button></a>
+            </div>
+            
+            
+        </div>
+    </div>
+    <script>
+        $(document).on('click', '.update', function(e) {
+            e.preventDefault();
+            var $this = $(this);
+            $.ajax({
+                type: 'POST',
+                url: '{% url 'myapp:update' %}',
+                data: {
+                    product_id: $this.val(),
+                    qte: $this.prev("select").val(),
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                    action: 'update'
+                },
+                success: function(json) {
+                    let total = $this.closest('td').next('td');
+                    total.text('$' + (json.qte * json.price).toFixed(2));
+                    let btn=document.createElement("button")
+                    btn.classList.add("delete")
+                    btn.textContent='delete'
+                    btn.value=$this.val()
+                    total.append(btn)
+                    document.getElementById('subtotal').textContent="Subtotal: $"+json.total
+                    document.getElementById('total').textContent="Total: "+json.taxed_total
+                }
+            });
+        });
+
+        $(document).on('click','.delete',function(e){
+            e.preventDefault();
+            let $this = $(this);
+            $.ajax({
+                type:'POST',
+                url: '{% url 'myapp:delete_pro' %}',
+                data:{
+                    product_id:$this.val(),
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                    action: 'delete'
+                },
+                success:function(json){
+                    let element = $this.parent().parent()
+                    element.remove();
+                    document.getElementById('span_quantity').textContent=json.len;
+                    document.getElementById('subtotal').textContent="Subtotal: $"+json.total
+                    document.getElementById('total').textContent="Total: $"+json.taxed_total
+                }
+            })
+        })
+       
+        
+        $(document).on('change','#category',function(e){
+            e.preventDefault();
+            let category = $(this).val();
+            $.ajax({
+                type:'POST',
+                url: '{% url 'myapp:category' %}',
+                data:{
+                    category:category,
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                    action: 'category'
+                },
+    
+            
+            })
+    
+        })
+        
+
+    </script>
+</body>
+</html>
+   
