@@ -52,7 +52,7 @@ INSTALLED_APPS = [
 ]
 PAYPAL_TEST = True
 
-PAYPAL_RECEIVER_EMAIL='vankoghv@gmail.com'
+PAYPAL_RECEIVER_EMAIL='e.iskander4397@uca.ac.ma'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

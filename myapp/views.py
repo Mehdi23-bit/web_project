@@ -136,8 +136,25 @@ def delete(request):
                              'total':total['total'],
                              'taxed_total':total['taxed_total']})
 def shipping_info(request):
+   try:
+    shipping_info = Shipping.objects.get(user=request.user)
+    form = ShippingForm(initial={
+        'first_name': shipping_info.first_name,
+        'last_name': shipping_info.last_name,
+        'adresse1': shipping_info.adresse1,
+        'adresse2': shipping_info.adresse2,
+        'email':shipping_info.email,
+        'city': shipping_info.city,
+        'province': shipping_info.province,
+        'zipcode': shipping_info.zipcode,
+        'country': shipping_info.country,
+    
+    })
+   except Shipping.DoesNotExist:
+    shipping_info=None
     form=ShippingForm()
-    return render(request,"shipping_info.html",{'form':form})
+    
+    return render(request, "shipping_info.html", {'form': form})
 def update_ship(request):
     try:
         # User has an existing shipping address, populate the form
@@ -150,8 +167,9 @@ def update_ship(request):
     if request.method == 'POST' and form.is_valid():
         form.save(user=request.user)
         return redirect('myapp:shipping_info')
+    
 
-    return render(request, 'myapp/update_ship.html', {'form': form})
+    return render(request, 'shipping_info.html', {'form': form})
                
 def get_ship(user):
     try:

@@ -5,70 +5,99 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Shipping Information</title>
   <style>
-    /* Global Styles */
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-    }
+    /* Form styles */
+form {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
 
-    /* Header Styles */
-    header {
-      background-color: #333;
-      color: #fff;
-      padding: 1rem;
-    }
+/* Form group styles */
+.form-group {
+  margin-bottom: 20px;
+}
 
-    /* Form Styles */
-    .shipping-info {
-      max-width: 600px;
-      margin: 2rem auto;
-      padding: 1.5rem;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
 
-    .shipping-info label {
-      display: block;
-      margin-bottom: 0.5rem;
-    }
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  font-size: 16px;
+}
 
-    .shipping-info input,
-    .shipping-info select {
-      width: 100%;
-      padding: 0.5rem;
-      border: 1px solid #ccc;
-      border-radius: 3px;
-      font-size: 1rem;
-    }
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
 
-    .shipping-info button {
-      display: block;
-      width: 100%;
-      padding: 0.75rem 1rem;
-      background-color: #007bff;
-      color: #fff;
-      border: none;
-      border-radius: 3px;
-      font-size: 1rem;
-      cursor: pointer;
-    }
+/* Alert styles */
+.alert {
+  padding: 10px 15px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+}
 
-    .shipping-info button:hover {
-      background-color: #0056b3;
-    }
+.alert-danger {
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+  color: #721c24;
+}
+
+/* Submit button styles */
+button[type="submit"] {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+  background-color: #0056b3;
+}
   </style>
 </head>
 <body>
   {% include "header.html" %}
-  <form action="{% url "myapp:update_ship" %}" method="post">
-        {% csrf_token %}
-    <div class="shipping-info">
-        <h1>Shipping informations</h1>
-        {{form.as_p}}
-        <input type="submit" name="submit" id="submit">
-  </form>
-  
-  </div>
+  <form method="post" action="{% url "myapp:update_ship" %}">
+    {% csrf_token %}
+    <h1>Shipping Information</h1>
+    {% if form.errors %}
+        <div class="alert alert-danger">
+            Please fix the errors below.
+        </div>
+    {% endif %}
+    {% for field in form %}
+        <div class="form-group">
+            {{ field.label_tag }}
+            {{ field }}
+            {% if field.errors %}
+                <div class="alert alert-danger">
+                    {{ field.errors|join:", " }}
+                </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
 </body>
 </html>
