@@ -10,6 +10,9 @@ from django.views.decorators.cache import never_cache
 from .category import Category
 from payment.forms import ShippingForm
 from payment.models import Shipping
+from payment.forms import CustomPayPalPaymentsForm
+from django.urls import reverse
+from ll_project.settings import PAYPAL_RECEIVER_EMAIL
 
 def profile(request):
     return render(request,'profile.html')
@@ -40,12 +43,54 @@ def category(request):
             product['image']='/media/'+product['image']
             
         return JsonResponse({'products':products_list,'success':True})
+    
 
 @never_cache
 def cartTab(request):
-    return render(request,'cartTab.html')
 
 
+
+    cart=Cart(request)
+    amount=cart.tot_al()["total"]
+    item_names=cart.get_names()
+    product_ids=list(cart.get_prod().keys())
+
+    paypal_dict = {
+        "business": PAYPAL_RECEIVER_EMAIL,
+        "amount": amount,
+        "item_name": item_names,
+        "invoice": "unique-invoice-id",
+        "notify_url": request.build_absolute_uri(reverse('payment:paypal-ipn')),
+        "return": request.build_absolute_uri(reverse('payment:return-view')),
+        "cancel_return": request.build_absolute_uri(reverse('payment:cancel-view')),
+        "custom":",".join(product_ids),  # Custom command to correlate to some function later (optional)
+    }
+
+    # Create the instance.
+    form = CustomPayPalPaymentsForm(initial=paypal_dict)
+    if request.GET.get('action')=='update_paypal':
+       return JsonResponse({
+        'form_html':form.render()
+        })
+    else:
+      context = {"form": form}
+      return render(request,'cartTab.html',context)
+
+from django.contrib.auth.decorators import user_passes_test
+from django.core.exceptions import PermissionDenied
+
+def superuser_required(view_func):
+    """
+    Decorator for views that checks if the user is a superuser.
+    """
+    def check_superuser(user):
+        if not user.is_superuser:
+            raise PermissionDenied
+        return True
+
+    return user_passes_test(check_superuser)(view_func)
+
+@superuser_required
 def super_user(request):
    
      if request.method =='POST':

@@ -1,5 +1,6 @@
 from .models import Produit
 from decimal import Decimal
+
 class Cart:
     def __init__(self, request):
         self.session = request.session
@@ -20,7 +21,7 @@ class Cart:
             self.session.modified = False
         else:
             # Add the product to the cart with an initial quantity of 1
-            self.cart[product_id] = {"qte": 1}
+            self.cart[product_id] = {"qte": 1,"name":product.nom}
             self.session.modified = True
 
     def __len__(self):
@@ -63,6 +64,8 @@ class Cart:
         return product
     def update(self,product_id,qte):
         self.cart[str(product_id)]["qte"]=qte
+       
+        
 
     def delete(self,product_id):
       del  self.cart[str(product_id)]
@@ -79,3 +82,8 @@ class Cart:
             'total':total,
             'taxed_total':taxed_total
         }
+    def get_names(self):
+       names=[]
+       for id in list(self.cart.keys()):
+           names.append(self.cart[id]['name'])
+       return names

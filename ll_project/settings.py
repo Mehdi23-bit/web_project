@@ -52,7 +52,7 @@ INSTALLED_APPS = [
 ]
 PAYPAL_TEST = True
 
-PAYPAL_RECEIVER_EMAIL='e.iskander4397@uca.ac.ma'
+PAYPAL_RECEIVER_EMAIL="sb-0yrwk32273593@business.example.com"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -94,9 +94,9 @@ WSGI_APPLICATION = 'll_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME':'django',
-        'USER':'root',
-        'PASSWORD':'root',
+        'NAME':'mydb',
+        'USER':'myuser',
+        'PASSWORD':'mypassword',
         'HOST':'localhost',
         'PORT':'3306',
     }

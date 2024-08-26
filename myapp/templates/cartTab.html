@@ -59,9 +59,9 @@
         }
         
         .item-details img {
-            width: 80px;
+            width: 55px;
             height: 80px;
-            object-fit: cover;
+            
             border-radius: 10px;
             margin-right: 20px;
         }
@@ -180,6 +180,20 @@
                 padding: 10px;
             }
         }
+
+        input[type="submit"] {
+    background-color: #007bff;
+    width:50%;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #0056b3;
+}
         
     </style>
 </head>
@@ -240,7 +254,10 @@
             <div id="tax">Tax: ${{ cart.tax }}</div>
             <div id="total">Total: ${{ cart.tot_al.taxed_total }}</div>
             <div class="btn">
-               <a href="{% url "payment:pay" %}"><button class="checkout-btn">Proceed to Checkout</button></a> 
+                <div id="paypal-form">
+                    {{ form.render }}
+                </div>
+                
               <a href="{% url "myapp:shipping_info" %}"><button  class="checkout-btn">shipping information</button></a>
             </div>
             
@@ -248,12 +265,36 @@
         </div>
     </div>
     <script>
+
+
+function updatePayPalForm() {
+    $.ajax({
+        url: '{% url "myapp:cartTab" %}',
+        type: 'GET',
+        data: {
+            action:'update_paypal'
+        },
+        dataType: 'json',
+        success: function(data) {
+            $('#paypal-form').html(data.form_html);
+           
+            
+        },
+        error: function(xhr, status, error) {
+            console.error("Error updating PayPal form:", error);
+        }
+    });
+}
+
+
+
+
         $(document).on('click', '.update', function(e) {
             e.preventDefault();
             var $this = $(this);
             $.ajax({
                 type: 'POST',
-                url: '{% url 'myapp:update' %}',
+                url: "{% url 'myapp:update' %}",
                 data: {
                     product_id: $this.val(),
                     qte: $this.prev("select").val(),
@@ -270,6 +311,7 @@
                     total.append(btn)
                     document.getElementById('subtotal').textContent="Subtotal: $"+json.total
                     document.getElementById('total').textContent="Total: "+json.taxed_total
+                    updatePayPalForm()
                 }
             });
         });
@@ -279,7 +321,7 @@
             let $this = $(this);
             $.ajax({
                 type:'POST',
-                url: '{% url 'myapp:delete_pro' %}',
+                url: "{% url 'myapp:delete_pro' %}",
                 data:{
                     product_id:$this.val(),
                     csrfmiddlewaretoken: '{{ csrf_token }}',
@@ -291,6 +333,7 @@
                     document.getElementById('span_quantity').textContent=json.len;
                     document.getElementById('subtotal').textContent="Subtotal: $"+json.total
                     document.getElementById('total').textContent="Total: $"+json.taxed_total
+                    updatePayPalForm()
                 }
             })
         })
@@ -301,7 +344,7 @@
             let category = $(this).val();
             $.ajax({
                 type:'POST',
-                url: '{% url 'myapp:category' %}',
+                url: "{% url 'myapp:category' %}",
                 data:{
                     category:category,
                     csrfmiddlewaretoken: '{{ csrf_token }}',
