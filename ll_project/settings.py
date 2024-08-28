@@ -13,6 +13,11 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from pathlib import Path
 import os
 from django.urls import reverse_lazy
+from dotenv import load_dotenv
+
+
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,8 +32,11 @@ SECRET_KEY = 'django-insecure-u510lzwpsgmlz99%&8^$3%dz^0ecg&wvkypsm))k)n33v#nsn+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["3027-105-69-126-114.ngrok-free.app","localhost",'127.0.0.1' ]
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://3027-105-69-126-114.ngrok-free.app',  # Replace with your actual Ngrok URL
+]
 
 # Application definition
 
@@ -43,16 +51,14 @@ INSTALLED_APPS = [
     'django_extensions',
     'authen',
     'django.contrib.sites',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
     'paypal.standard.ipn',
-    'payment'
+    'payment.apps.PaymentConfig',
+    'social_django'
+
 ]
 PAYPAL_TEST = True
 
-PAYPAL_RECEIVER_EMAIL="sb-0yrwk32273593@business.example.com"
+PAYPAL_RECEIVER_EMAIL="sb-b5smm32419244@business.example.com"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -63,10 +69,11 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware'
 ]
 
 ROOT_URLCONF = 'll_project.urls'
-LOGIN_REDIRECT_URL = 'success/'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -79,7 +86,9 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'myapp.context_processor.cart',
-                'myapp.context_processor.category'
+                'myapp.context_processor.category',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect'
             ],
         },
     },
@@ -91,35 +100,44 @@ WSGI_APPLICATION = 'll_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+
+import os
+from dotenv import load_dotenv 
+load_dotenv()
+DATABASE_URL = os.getenv("DATABASE_URL")
+
 DATABASES = {
     'default': {
+
         'ENGINE': 'django.db.backends.mysql',
-        'NAME':'mydb',
-        'USER':'myuser',
-        'PASSWORD':'mypassword',
-        'HOST':'localhost',
-        'PORT':'3306',
+        'NAME': 'mydb',
+        'USER': 'myuser',
+        'PASSWORD': 'mypassword',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
+
+
 
 SITE_ID=2
 
 AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
-    
+     'django.contrib.auth.backends.ModelBackend',
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.google.GoogleOAuth',
 )
-SOCIALACCOUNT_PROVIDERS = {
-    'google': {
-        'SCOPE': [
-            'profile',
-            'email',
-        ],
-        'AUTH_PARAMS': {
-            'access_type': 'online',
-        }
-    }
-}
+
+LOGIN_URL='authen:login_page'
+LOGIN_REDIRECT_URL = 'myapp:product_list'
+LOGOUT_URL='authen:logout'
+LOGOUT_REDIRECT_URL='authen:login_page'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY=os.getenv("SOCIAL_AUTH_GOOGLE_OAUTH2_KEY")
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET=os.getenv("SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET")
+
+
+
+
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 

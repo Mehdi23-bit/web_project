@@ -17,12 +17,17 @@ from django.contrib import admin
 from django.urls import path,include
 from django.conf.urls.static import static
 from django.conf import settings
-
+from paypal.standard.ipn import signals as paypal_signals
+from payment import signals as payment_signals
+from allauth.account import signals as user_signals
+from authen import signals as profile_view
+# This line is just to ensure the signals are connected
+paypal_signals.valid_ipn_received.connect(payment_signals.valid_ipn_received_handler)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('authen.urls')),
     path('myapp/',include('myapp.urls')),
-    path('accounts/', include('allauth.urls')),
+    path('social-auth/', include('social_django.urls', namespace='social')),
     path('payment/',include('payment.urls')),
      path('paypal/', include("paypal.standard.ipn.urls")),
      

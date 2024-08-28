@@ -13,11 +13,15 @@ from payment.models import Shipping
 from payment.forms import CustomPayPalPaymentsForm
 from django.urls import reverse
 from ll_project.settings import PAYPAL_RECEIVER_EMAIL
+from django.views.decorators.csrf import csrf_exempt
+
 
 def profile(request):
     return render(request,'profile.html')
 
 @never_cache
+@csrf_exempt
+@login_required
 def product_list(request):
     category=Category(request)
     if category.cat == 'all':
@@ -46,26 +50,24 @@ def category(request):
     
 
 @never_cache
+@csrf_exempt
 def cartTab(request):
-
-
-
     cart=Cart(request)
     amount=cart.tot_al()["total"]
     item_names=cart.get_names()
     product_ids=list(cart.get_prod().keys())
-
+    print(request.session["session_key"])
     paypal_dict = {
         "business": PAYPAL_RECEIVER_EMAIL,
         "amount": amount,
         "item_name": item_names,
         "invoice": "unique-invoice-id",
-        "notify_url": request.build_absolute_uri(reverse('payment:paypal-ipn')),
+        "notify_url": request.build_absolute_uri(reverse('paypal-ipn')),
         "return": request.build_absolute_uri(reverse('payment:return-view')),
         "cancel_return": request.build_absolute_uri(reverse('payment:cancel-view')),
         "custom":",".join(product_ids),  # Custom command to correlate to some function later (optional)
     }
-
+    print("myapp view")
     # Create the instance.
     form = CustomPayPalPaymentsForm(initial=paypal_dict)
     if request.GET.get('action')=='update_paypal':

@@ -34,7 +34,7 @@
             e.preventDefault();
             $.ajax({
                 type:'POST',
-                url:'{% url 'myapp:add' %}',
+                url:'{% url "myapp:add" %}',
                 data:{
 
                     product_id:$(this).val(),
@@ -74,7 +74,7 @@
             let category = $(this).val();
             $.ajax({
                 type:'POST',
-                url: '{% url 'myapp:category' %}',
+                url: '{% url "myapp:category" %}',
                 data:{
                     category:category,
                     csrfmiddlewaretoken: '{{ csrf_token }}',

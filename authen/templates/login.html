@@ -43,8 +43,9 @@
                     <button type="submit">Login</button>
                 
                     <div class="social">
-                        {% load socialaccount %}
-                        <a href="{% url 'account_login' %}?next={{ request.path }}">Login with Google</a>
+                        <button>
+                            <a href="{% url 'social:begin' 'google-oauth2' %}">Login with Google</a>
+                        </button>
                         <div class="fb"><i class="fab fa-facebook"></i> Facebook</div>
                     </div>
                 </div>

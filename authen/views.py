@@ -5,10 +5,18 @@ from django.contrib.auth import logout
 from .forms import LoginForm,SignInForm
 from django.contrib import messages
 from .models import Profile
-
+from .save_session import load_persistent_data,save_persistent_data
+@login_required
 def custom_logout_view(request):
-    logout(request)  # Log out the user
-    return redirect('login_page')  # Redirect to the login page
+    #if request.user.is_authenticated:
+        print("I begin saving")
+        # Make sure to pass the actual user object, not request.user
+        user = request.user
+        session_key = request.session['session_key']
+        save_persistent_data(user, session_key)
+        print("I am done with saving")
+        logout(request)  # Log out the user
+        return redirect('authen:login_page')  # Redirect to the login page
 
 
 
@@ -35,6 +43,7 @@ def login_(request):
             password = form.cleaned_data['password']
             user = authenticate(username=username, password=password)
             if user is not None:
+                request.session['session_key'] = load_persistent_data(user)
                 login(request, user)
                 if user.is_superuser:
                   return redirect('myapp:super_user')
@@ -59,8 +68,8 @@ def sign_in(request):
             user=form.save()
             username = form.cleaned_data['username']
             messages.success(request,"Vous enrigestrer l'utilisateur " +username+' avec succès' )
-            profile=Profile(user=user)
-            profile.save()
+           # profile=Profile(user=user)
+            #profile.save()
             return redirect('authen:login_page')
             
         else:

@@ -15,3 +15,5 @@ urlpatterns = [
     path('shipping_info/',views.shipping_info,name="shipping_info"),
     path('update_ship/',views.update_ship,name='update_ship') 
 ]
+
+

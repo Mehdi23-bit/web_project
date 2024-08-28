@@ -1,21 +1,31 @@
 from django.shortcuts import render
-import requests
-from myapp.cart import Cart
- 
-def paypal_ipn(request):
-   if request.method == 'POST':
-       ipn_data=request.POST.copy()
-       ipn_data.update({"cmd": "_notify-validate"})
-       validation=requests.post("https://ipnpb.sandbox.paypal.com/cgi-bin/webscr", data=ipn_data)
-       if validation.text == "VERIFIED":
-          product_ids = ipn_data.get("custom").split(",")
-          for id in product_ids:
-              Cart(request).delete(id)
-       else:
-           print("it doesn't work")
+from payment.forms import CustomPayPalPaymentsForm
+from django.urls import reverse
+from ll_project.settings import PAYPAL_RECEIVER_EMAIL
+from django.views.decorators.csrf import csrf_exempt
 
+
+def pay(request):
+    paypal_dict = {
+        "business": PAYPAL_RECEIVER_EMAIL,
+        "amount": "50",
+        "item_name": "item_names",
+        "invoice": "unique-invoice-id",
+        "notify_url": request.build_absolute_uri(reverse('paypal-ipn')),
+        "return": request.build_absolute_uri(reverse('payment:return-view')),
+        "cancel_return": request.build_absolute_uri(reverse('payment:cancel-view')),
+        "custom":"primary",  # Custom command to correlate to some function later (optional)
+    }
+    print("myapp view")
+    print(f"IPN URL: {paypal_dict['notify_url']}")
+    # Create the instance.
+    form = CustomPayPalPaymentsForm(initial=paypal_dict)
+    context = {"form": form}
+    return render(request,'payment.html',context)
+@csrf_exempt
 def return_view(request):
     return render(request,'success.html')
+@csrf_exempt
 def cancel_view(request):
     return render(request,'cancel.html')
 

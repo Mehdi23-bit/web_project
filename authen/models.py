@@ -9,3 +9,10 @@ class Profile(models.Model):
     def _str__(self):
         return self.user.username
     
+class UserPersistentData(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    data = models.JSONField(default=dict)
+
+    def __str__(self):
+        return f"Persistent data for {self.user.username}"
+    
