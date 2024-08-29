@@ -32,10 +32,10 @@ SECRET_KEY = 'django-insecure-u510lzwpsgmlz99%&8^$3%dz^0ecg&wvkypsm))k)n33v#nsn+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["3027-105-69-126-114.ngrok-free.app","localhost",'127.0.0.1' ]
+ALLOWED_HOSTS = ["d50d-105-69-84-71.ngrok-free.app","localhost",'127.0.0.1' ]
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://3027-105-69-126-114.ngrok-free.app',  # Replace with your actual Ngrok URL
+    'https://d50d-105-69-84-71.ngrok-free.app',  # Replace with your actual Ngrok URL
 ]
 
 # Application definition
@@ -69,7 +69,9 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
-    'social_django.middleware.SocialAuthExceptionMiddleware'
+    'social_django.middleware.SocialAuthExceptionMiddleware',
+    'authen.middleware.RequestLoggingMiddleware',
+     'authen.middleware.RequestMiddleware'
 ]
 
 ROOT_URLCONF = 'll_project.urls'
@@ -135,6 +137,19 @@ LOGOUT_REDIRECT_URL='authen:login_page'
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY=os.getenv("SOCIAL_AUTH_GOOGLE_OAUTH2_KEY")
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET=os.getenv("SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET")
 
+
+SOCIAL_AUTH_PIPELINE = (
+    'social_core.pipeline.social_auth.social_details',
+    'social_core.pipeline.social_auth.social_uid',
+    'social_core.pipeline.social_auth.auth_allowed',
+    'social_core.pipeline.social_auth.social_user',
+    'social_core.pipeline.user.get_username',
+    'social_core.pipeline.user.create_user',
+    'social_core.pipeline.social_auth.associate_user',
+    'social_core.pipeline.social_auth.load_extra_data',
+    'social_core.pipeline.user.user_details',
+    'authen.pipeline.load_user_persistent_data',  # Add this line
+)
 
 
 

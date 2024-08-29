@@ -1,11 +1,13 @@
 from .models import Produit
 from decimal import Decimal
 from authen.models import Profile,Produit
+from authen.save_session import *
 
 class Cart:
     def __init__(self, request):
         self.session = request.session
         cart = self.session.get('session_key')
+        self.user = request.user
         self.tax=Decimal('1.1')
         
         if not cart:
@@ -24,10 +26,9 @@ class Cart:
         else:
             # Add the product to the cart with an initial quantity of 1
             self.cart[product_id] = {"qte": 1,"name":product.nom}
-            print('i add a product to session')
-            print("the products in session are : ")
-            print(self.session['session_key'])
             
+            session_key = self.session['session_key']
+            save_persistent_data(self.user, session_key)
             self.session.modified = True
 
     def __len__(self):
@@ -70,13 +71,15 @@ class Cart:
         return product
     def update(self,product_id,qte):
         self.cart[str(product_id)]["qte"]=qte
-       
+        session_key = self.session['session_key']
+        save_persistent_data(self.user, session_key)
+        
         
 
     def delete(self,product_id):
       del  self.cart[str(product_id)]
-     
-      
+      session_key = self.session['session_key']
+      save_persistent_data(self.user, session_key)
       
 
     def tot_al(self):

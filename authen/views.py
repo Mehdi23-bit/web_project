@@ -6,6 +6,7 @@ from .forms import LoginForm,SignInForm
 from django.contrib import messages
 from .models import Profile
 from .save_session import load_persistent_data,save_persistent_data
+from social_django.utils import load_strategy, load_backend
 @login_required
 def custom_logout_view(request):
     #if request.user.is_authenticated:
@@ -60,6 +61,7 @@ def login_(request):
         error_message = "vous avez des error en les information que vous submiter"
         context = {'error_message': error_message,'form':form}
         return render(request, 'login.html', context)
+    
             
 def sign_in(request):
     if request.method == 'POST':
@@ -68,8 +70,7 @@ def sign_in(request):
             user=form.save()
             username = form.cleaned_data['username']
             messages.success(request,"Vous enrigestrer l'utilisateur " +username+' avec succès' )
-           # profile=Profile(user=user)
-            #profile.save()
+           
             return redirect('authen:login_page')
             
         else:

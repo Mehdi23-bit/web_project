@@ -8,7 +8,8 @@ def save_persistent_data(user, data):
     user_data.save()
 
 def load_persistent_data(user):
-    try:
+    print('i am loading')
+    try: 
         return UserPersistentData.objects.get(user=user).data
     except UserPersistentData.DoesNotExist:
         return {}
