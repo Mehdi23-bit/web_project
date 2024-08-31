@@ -13,7 +13,8 @@ urlpatterns = [
     path('profile/',views.profile,name='profile'),
     path('category/',views.category,name='category'),
     path('shipping_info/',views.shipping_info,name="shipping_info"),
-    path('update_ship/',views.update_ship,name='update_ship') 
+    path('update_ship/',views.update_ship,name='update_ship'),
+    path('orders/',views.orders,name='orders')
 ]
 
 

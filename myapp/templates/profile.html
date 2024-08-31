@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% load static %}
-<link rel="stylesheet" href="{% static "css/profile.css" %}">
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
     <title>Document</title>
 </head>
 <body>
@@ -12,83 +12,36 @@
     <div class="account">
        
         <div class="content">
-            <span class='span1'>Orders</span>
-        <span class='span2 border active'>Account settings</span>
+            <a href="{% url 'myapp:orders' %}"><span class='span1'>Orders</span></a>
+        <a href="{% url 'myapp:profile'%}"><span class='span2 border active'>Account settings</span></a>
         <form action="{% url 'authen:logout' %}" method="post">
             {% csrf_token %}
             <button type="submit">Logout</button>
         </form>
         
     </div> 
-    <div class="account_update">
-        <div class="title">Account information</div>
-        <div class="form">
-            <form method="POST" >
-                {% csrf_token %}
-                <div class='names'>
-                    <div class="input">
-                        <div class="label">FIRST NAME</div>
-                        <input type="text" name="first_name">
-                        
-                    </div>
-    
-                    <div class="input">
-                        <div class="label">LAST NAME</div>   
-                        <input type="text" name="last_name">
-                    </div>
-                 
-                </div>
-                
-                    <div class="input">
-                        <div class="label">EMAIl</div>    
-                        <input type="email" name="email"></div>
-                    <div class="input">
-                        <div class="label">UPDATED PASSWORD</div>
-                        <input type="password" name="password">
-                      </div>
-                
-                
-                  <input type="submit" name="update_info" value="UPDATE DETAILS">               
-                    
-            </form>
-        </div>
-    </div>
    
-    </div>
-    <div class="order_history hidden_container">
-<h1>ORDER HISTORY</h1>
-
-
-    </div>
+    
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const account_list = document.querySelectorAll('.content span');
-            const accountUpdate = document.querySelector('.account_update');
-            const orderHistory = document.querySelector('.order_history');
-    
-            account_list.forEach((item) => {
-                item.addEventListener("click", () => {
-                    account_list.forEach(i => {
-                        i.classList.remove('border');
-                        i.classList.remove('active');
-                    });
-                    item.classList.add('border');
-                    // Delay adding the 'active' class to trigger the animation
-                    setTimeout(() => {
-                        item.classList.add('active');
-                    }, 10);
-    
-                    // Toggle visibility of account update and order history
-                    if (item.classList.contains('span1')) {
-                        accountUpdate.classList.add('hidden_container');
-                        orderHistory.classList.remove('hidden_container');
-                    } else if (item.classList.contains('span2')) {
-                        accountUpdate.classList.remove('hidden_container');
-                        orderHistory.classList.add('hidden_container');
-                    }
-                });
-            });
-        });
+
+let path = window.location.pathname;
+let item;
+
+
+if (path === '/myapp/orders/') {
+    item = document.querySelector('.span1');
+} else if (path === '/myapp/profile/') {
+    item = document.querySelector('.span2');
+}
+document.querySelector('.span2').classList.remove('border','active')
+
+    item.classList.add('border');
+    // Delay adding the 'active' class to trigger the animation
+    setTimeout(() => {
+        item.classList.add('active');
+    }, 10);
+
+     
     </script>
     
 </body>

@@ -10,13 +10,16 @@ class RequestLoggingMiddleware:
     def __call__(self, request):
         # This code is executed for each request before the view (and later middleware) are called.
         logging.info(f"Request Method: {request.method}, Path: {request.path}")
-        print('i am in middleware')
-        request.session['session_key'] = load_persistent_data(request.user)
+        print('i am refreshing midlleware')
+        if not request.user.is_anonymous:
+          request.session['session_key'] = load_persistent_data(request.user)
         # Call the next middleware or the view
         response = self.get_response(request)
+        
+        return response
 
         # This code is executed for each request/response after the view is called.
-        return response
+        
 # myapp/middleware.py
 import threading
 

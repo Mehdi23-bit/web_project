@@ -6,7 +6,6 @@ from .forms import LoginForm,SignInForm
 from django.contrib import messages
 from .models import Profile
 from .save_session import load_persistent_data,save_persistent_data
-from social_django.utils import load_strategy, load_backend
 @login_required
 def custom_logout_view(request):
     #if request.user.is_authenticated:
@@ -43,15 +42,15 @@ def login_(request):
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
             user = authenticate(username=username, password=password)
-            if user is not None:
-                request.session['session_key'] = load_persistent_data(user)
-                login(request, user)
-                if user.is_superuser:
-                  return redirect('myapp:super_user')
-                else: 
+            #if user is not None:
+            request.session['session_key'] = load_persistent_data(user)
+            login(request, user)
+            if user.is_superuser:
+               return redirect('myapp:super_user')
+            else: 
                     return redirect('myapp:product_list')
 
-            else:
+        else:
                 error_message = "Le nom d'utilisateur ou le mot de passe est incorrect."
                 context = {'error_message': error_message,'form':form}
                 return render(request, 'login.html', context)

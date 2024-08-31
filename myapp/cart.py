@@ -77,7 +77,9 @@ class Cart:
         
 
     def delete(self,product_id):
+      print("i am deleting1")
       del  self.cart[str(product_id)]
+      print('i am deleting2')
       session_key = self.session['session_key']
       save_persistent_data(self.user, session_key)
       

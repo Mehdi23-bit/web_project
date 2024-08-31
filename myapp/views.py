@@ -17,7 +17,11 @@ from django.views.decorators.csrf import csrf_exempt
 
 
 def profile(request):
-    return render(request,'profile.html')
+    return render(request,'account.html')
+
+
+def orders(request):
+   return render(request,'orders.html')
 
 @never_cache
 @csrf_exempt
@@ -57,6 +61,7 @@ def cartTab(request):
     item_names=cart.get_names()
     product_ids=list(cart.get_prod().keys())
     print(request.session["session_key"])
+    user_id=request.user.id
     paypal_dict = {
         "business": PAYPAL_RECEIVER_EMAIL,
         "amount": amount,
@@ -65,7 +70,7 @@ def cartTab(request):
         "notify_url": request.build_absolute_uri(reverse('paypal-ipn')),
         "return": request.build_absolute_uri(reverse('payment:return-view')),
         "cancel_return": request.build_absolute_uri(reverse('payment:cancel-view')),
-        "custom":",".join(product_ids),  # Custom command to correlate to some function later (optional)
+        "custom":f"{user_id},{','.join(product_ids)}",  # Custom command to correlate to some function later (optional)
     }
     print("myapp view")
     # Create the instance.
@@ -201,7 +206,7 @@ def shipping_info(request):
     shipping_info=None
     form=ShippingForm()
     
-    return render(request, "shipping_info.html", {'form': form})
+   return render(request, "shipping_info.html", {'form': form})
 def update_ship(request):
     try:
         # User has an existing shipping address, populate the form

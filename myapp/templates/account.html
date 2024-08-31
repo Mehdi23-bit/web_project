@@ -1,0 +1,36 @@
+{% include  "profile.html"  %}
+<div class="account_update">
+    <div class="title">Account information</div>
+    <div class="form">
+        <form method="POST" >
+            {% csrf_token %}
+            <div class='names'>
+                <div class="input">
+                    <div class="label">FIRST NAME</div>
+                    <input type="text" name="first_name">
+                    
+                </div>
+
+                <div class="input">
+                    <div class="label">LAST NAME</div>   
+                    <input type="text" name="last_name">
+                </div>
+             
+            </div>
+            
+                <div class="input">
+                    <div class="label">EMAIl</div>    
+                    <input type="email" name="email"></div>
+                <div class="input">
+                    <div class="label">UPDATED PASSWORD</div>
+                    <input type="password" name="password">
+                  </div>
+            
+            
+              <input type="submit" name="update_info" value="UPDATE DETAILS">               
+                
+        </form>
+    </div>
+</div>
+
+</div>

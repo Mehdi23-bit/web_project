@@ -139,10 +139,13 @@ input[type="password"]::placeholder {
     font-weight: normal;
 }
 
-.order_history {
-    display: none;
+span{
+    color: black;
+    
+}
+a{
+    text-decoration: none;
 }
 
-.hidden_container {
-    display: none;
-}
+
+
