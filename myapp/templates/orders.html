@@ -13,8 +13,8 @@
 
 <div class="order">
     <h1>ORDER HISTORY</h1>
-    <table>
-        
+    <table> 
+        <thead>
             <tr>
                 <th>order</th>
                 <th>quantity</th>
@@ -22,13 +22,31 @@
                 <th>date</th>
     
             </tr>
-
+        </thead>
+        
+        <tbody>
+            {% if products %}
+    
+            {% for pro in products  %}
+                        <tr>
+                            <td><div class="product">
+                 <img src="{{ pro.product.image.url }}" alt="{{ pro.product.nom }}">
+                                <p>{{pro.product.prix}}</p>
+                                <p>{{ pro.product.nom }}</p>
+                            </div></td>
+                            <td>{{ pro.qte  }}</td>
+                            <td>{{ pro.total }}</td>
+                            <td>{{ pro.order_time }}</td>
+                        </tr>
+                        {%endfor%}
+            
+            {%else%}
             <tr>
-                <td>product1</td>
-                <td>10</td>
-                <td>1022</td>
-                <td>ijgrjgj</td>
+                <td colspan="4"style="text-align: center; font-size: 24px; font-weight: bold; padding: 20px;">No items found in your order history</td>
             </tr>
+            {% endif %}
+        </tbody>
+            
     
     </table>
     

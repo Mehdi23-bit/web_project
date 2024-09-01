@@ -194,11 +194,76 @@
 input[type="submit"]:hover {
     background-color: #0056b3;
 }
+
+#popup-messages {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.popup {
+    position: relative;
+    margin-bottom: 10px;
+    padding: 15px;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 200px;
+    max-width: 300px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.popup.success {
+    background-color: #28a745; /* Green for success */
+}
+
+.popup.warning {
+    background-color: #ffc107; /* Yellow for warning */
+    color: #333; /* Darker text for contrast */
+}
+
+.popup.error {
+    background-color: #dc3545; /* Red for error */
+}
+
+.close-popup {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.close-popup:hover {
+    color: #000;
+}
+
+
         
     </style>
 </head>
 <body>
     {% include "header.html" %}
+
+    <div id="popup-messages">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="popup {{ message.tags }}">
+                    <span>{{ message }}</span>
+                    <button class="close-popup" onclick="this.parentElement.style.display='none';">×</button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+    
+    
+    
+
     <div class="cart-container">
         <div class="cartTab" id="cartTab">
             <h1>Cart</h1>
@@ -212,6 +277,7 @@ input[type="submit"]:hover {
                         </tr>
                     </thead>
                     <tbody>
+                        {% if cart.get_prod.items %}
                         {% for key, item in cart.get_prod.items %}
                 
                             <tr>
@@ -241,8 +307,15 @@ input[type="submit"]:hover {
                                 </td>
                                 
                             </tr>
+
                             {% endfor %}
-                        
+
+                            {% else %}
+                            <tr>
+                                <td colspan="4"style="text-align: center; font-size: 24px; font-weight: bold; padding: 20px;">Your cart is currently empty</td>
+                            </tr>
+
+                            {%endif%}
                         
                     </tbody>
                 </table>
@@ -334,6 +407,13 @@ function updatePayPalForm() {
                     document.getElementById('subtotal').textContent="Subtotal: $"+json.total
                     document.getElementById('total').textContent="Total: $"+json.taxed_total
                     updatePayPalForm()
+                    if (json.len==0){
+                        document.querySelector('table tbody').innerHTML=`
+                        <tr>
+                                <td colspan="4"style="text-align: center; font-size: 24px; font-weight: bold; padding: 20px;">Your cart is currently empty</td>
+                            </tr>
+                        `
+                    }
                 }
             })
         })
@@ -355,7 +435,38 @@ function updatePayPalForm() {
             })
     
         })
-        
+
+        function showPopup(message, type) {
+    const popupContainer = document.getElementById('popup-messages');
+    const popup = document.createElement('div');
+    popup.className = `popup ${type}`;
+    
+    const popupText = document.createElement('span');
+    popupText.textContent = message;
+    
+    const closeBtn = document.createElement('button');
+    closeBtn.className = 'close-popup';
+    closeBtn.innerHTML = '&times;';
+    closeBtn.onclick = () => popup.style.display = 'none';
+    
+    popup.appendChild(popupText);
+    popup.appendChild(closeBtn);
+    popupContainer.appendChild(popup);
+    
+    // Auto-close the popup after 3 seconds
+    setTimeout(() => popup.style.display = 'none', 3000);
+}
+
+
+window.onload = function() {
+    const popups = document.querySelectorAll('.popup');
+    popups.forEach(popup => {
+        setTimeout(() => {
+            popup.style.display = 'none';
+        }, 3000); // Disappears after 3 seconds
+    });
+};
+
 
     </script>
 </body>

@@ -17,6 +17,7 @@ class UserPersistentData(models.Model):
 class Order(models.Model):
    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='orders')
    products = models.ManyToManyField(Produit, related_name='orders')
+   data = models.JSONField(default=dict)
    email=models.EmailField(max_length=255,null=True,blank=True,default=None)
    adresse1=models.CharField(max_length=255)
    adresse2=models.CharField(max_length=255)

@@ -14,14 +14,26 @@ from payment.forms import CustomPayPalPaymentsForm
 from django.urls import reverse
 from ll_project.settings import PAYPAL_RECEIVER_EMAIL
 from django.views.decorators.csrf import csrf_exempt
-
+from authen.models import Order
+from django.contrib import messages
 
 def profile(request):
     return render(request,'account.html')
 
-
+@never_cache
 def orders(request):
-   return render(request,'orders.html')
+   user=request.user
+   orders=Order.objects.filter(user=user)
+   products=[]
+   for order in orders: 
+      for id in list(order.data.keys()):
+          product=Produit.objects.get(pk=int(id))
+          qte=order.data[id]["qte"]
+          order_time=order.time
+          total=qte*(product.prix)
+          products.append({"product":product,"qte":qte,"order_time": order_time,"total":total})
+   products.reverse()
+   return render(request,'orders.html',{'products':products})
 
 @never_cache
 @csrf_exempt
@@ -218,10 +230,11 @@ def update_ship(request):
 
     if request.method == 'POST' and form.is_valid():
         form.save(user=request.user)
-        return redirect('myapp:shipping_info')
+        messages.success(request, 'Your shipping details have been saved')
     
-
-    return render(request, 'shipping_info.html', {'form': form})
+    else:
+        messages.error(request, 'Something went wrong while processing your shipping')
+    return redirect("myapp:cartTab")
                
 def get_ship(user):
     try:
