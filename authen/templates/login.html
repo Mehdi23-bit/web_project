@@ -9,45 +9,28 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <div id="part">
-        <div id="left-side">
-            {% load static %}
-            <img src="{% static 'image/pict1.jpg' %}" alt="ocean">
-            <div class="text-overlay">
-                <h2>Capturing Moments, Creating Memories</h2>
-            </div>
-        </div>
-
-        <div id="right-side">
+    <div class="login-container">
+        <div class="login-form">
             <form action="{% url 'authen:login' %}" method="post">
                 {% csrf_token %}
-                {% if messages %}
-                <div id="errorPopup" class="error-popup">
-                    {% for message in messages %}
-                    <p>{{ message }}</p>
-                    {% endfor %}
-                    <button type="button" onclick="closePopup()">Close</button>
-                </div>
-                <div id="overlay" class="overlay"></div>
-                {% endif %}
-                <div id="form">
-                    <h1>Login</h1>
+                <h1>Login</h1>
 
-                    <div id="signup_div">
-                        <p>Don't have an account? <a href="{% url 'authen:sign_page' %}" class="signup">Sign Up</a></p>
-                    </div>
-                    
-                    <div>{{ form.username }}</div>
-                   
-                    <div>{{ form.password }}</div>
-                    <button type="submit">Login</button>
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username">
                 
-                    <div class="social">
-                        <button>
-                            <a href="{% url 'social:begin' 'google-oauth2' %}">Login with Google</a>
-                        </button>
-                        <div class="fb"><i class="fab fa-facebook"></i> Facebook</div>
-                    </div>
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" placeholder="Enter your password">
+                
+                <button type="submit">Login</button>
+
+                <div class="social">
+                    <a href="{% url 'social:begin' 'google-oauth2' %}" class="login-with-google-btn">
+                        <i class="fab fa-google"></i> Sign in with Google
+                    </a>
+                </div>
+
+                <div id="signup_div">
+                    <p>Don't have an account? <a href="{% url 'authen:sign_page' %}" class="signup">Sign Up</a></p>
                 </div>
             </form>
         </div>

@@ -2,473 +2,125 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    {% load static %}
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>Shop Cart</title>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-        
-        .cart-container {
-            display: flex;
-            justify-content: space-between;
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 20px;
-            background-color: #ffffff;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-        }
-        
-        .cartTab {
-            flex: 2;
-            padding-right: 30px;
-        }
-        
-        .cartTab h1 {
-            font-size: 32px;
-            margin-bottom: 20px;
-            color: #333333;
-        }
-        
-        .list table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        
-        .list th, .list td {
-            padding: 15px;
-            text-align: left;
-            border-bottom: 1px solid #dddddd;
-            font-size: 18px;
-        }
-        
-        .list th {
-            background-color: #f8f8f8;
-            color: #666666;
-        }
-        
-        .item-details {
-            display: flex;
-            align-items: center;
-        }
-        
-        .item-details img {
-            width: 55px;
-            height: 80px;
-            
-            border-radius: 10px;
-            margin-right: 20px;
-        }
-        
-        .item-info h3 {
-            margin: 0;
-            font-size: 20px;
-            color: #333333;
-        }
-        
-        .item-info .price {
-            color: #888888;
-            font-size: 16px;
-        }
-        
-        .quantity {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .quantity select {
-            padding: 8px;
-            font-size: 16px;
-            border: 1px solid #dddddd;
-            border-radius: 5px;
-        }
-        
-        .update {
-            padding: 6px 10px;
-            background-color: #4caf50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-        
-        .update:hover {
-            background-color: #45a049;
-        }
-        
-        .total {
-            font-size: 20px;
-            color: #333333;
-        }
-        
-        .delete {
-            padding: 6px 10px;
-            background-color: #ff4c4c;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-            margin-left: 10px;
-        }
-        
-        .delete:hover {
-            background-color: #e04343;
-        }
-        
-        .bill-summary {
-            flex: 1;
-            padding-left: 30px;
-            background-color: #f8f8f8;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-        
-        .bill-summary h2 {
-            font-size: 28px;
-            margin-bottom: 20px;
-            color: #333333;
-        }
-        
-        .bill-summary div {
-            font-size: 18px;
-            margin-bottom: 15px;
-            color: #444444;
-        }
-        
-        .btn {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        
-        .checkout-btn {
-            padding: 12px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 18px;
-            cursor: pointer;
-            text-align: center;
-            transition: background-color 0.3s;
-        }
-        
-        .checkout-btn:hover {
-            background-color: #0069d9;
-        }
-        
-        a {
-            text-decoration: none;
-        }
-        
-        @media (max-width: 768px) {
-            .cart-container {
-                flex-direction: column;
-            }
-        
-            .cartTab, .bill-summary {
-                padding: 10px;
-            }
-        }
-
-        input[type="submit"] {
-    background-color: #007bff;
-    width:50%;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-input[type="submit"]:hover {
-    background-color: #0056b3;
-}
-
-#popup-messages {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 1000;
-}
-
-.popup {
-    position: relative;
-    margin-bottom: 10px;
-    padding: 15px;
-    border-radius: 5px;
-    color: white;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    min-width: 200px;
-    max-width: 300px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.popup.success {
-    background-color: #28a745; /* Green for success */
-}
-
-.popup.warning {
-    background-color: #ffc107; /* Yellow for warning */
-    color: #333; /* Darker text for contrast */
-}
-
-.popup.error {
-    background-color: #dc3545; /* Red for error */
-}
-
-.close-popup {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 20px;
-    margin-left: 10px;
-    cursor: pointer;
-}
-
-.close-popup:hover {
-    color: #000;
-}
-
-
-        
-    </style>
+    <link rel="stylesheet" href="{% static 'css/header.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/cart.css' %}">
+    <title>Cart</title>
 </head>
 <body>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     {% include "header.html" %}
-
-    <div id="popup-messages">
-        {% if messages %}
-            {% for message in messages %}
-                <div class="popup {{ message.tags }}">
-                    <span>{{ message }}</span>
-                    <button class="close-popup" onclick="this.parentElement.style.display='none';">×</button>
-                </div>
-            {% endfor %}
-        {% endif %}
-    </div>
     
-    
-    
+    <main>
+        <section class="parallax-section" id="section2" style="background-image: url('{% static 'img/pexels37.jpg' %}');">
+            <div class="overlay">
+                <h1>My Cart</h1>
+            </div>
+        </section>
 
-    <div class="cart-container">
-        <div class="cartTab" id="cartTab">
-            <h1>Cart</h1>
-            <div class="list" id='shop_cart'>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Product</th>
-                            <th>Quantity</th>
-                            <th>Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% if cart.get_prod.items %}
-                        {% for key, item in cart.get_prod.items %}
-                
-                            <tr>
-                                <td>
-                                    <div class="item-details">
-                                        <img src="{{ item.img }}" alt="{{ item.name }}">
-                                        <div class="item-info">
-                                            <h3>{{ item.name }}</h3>
-                                            <div class="price">${{ item.price }} USD</div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="quantity">
-                                        <select name="quantity" class="quantity">
-                                            <option value="1" {% if item.qte == 1 %}selected{% endif %}>1</option>
-                                            <option value="2" {% if item.qte == 2 %}selected{% endif %}>2</option>
-                                            <option value="3" {% if item.qte == 3 %}selected{% endif %}>3</option>
-                                            <option value="4" {% if item.qte == 4 %}selected{% endif %}>4</option>
-                                            <option value="5" {% if item.qte == 5 %}selected{% endif %}>5</option>
-                                        </select>
-                                        <button class="update" value="{{ item.id }}">Update</button>
-                                    </div>
-                                </td>
-                                <td class="total">{{item.total}}
-                                    <button class="delete" value="{{ item.id }}">delete</button>
-                                </td>
-                                
-                            </tr>
+        <div class="cta-banner">
+            <p>Review your selected items before proceeding to checkout. Adjust quantities or remove items as needed.</p>
+        </div>
 
+        <div class="cart-content">
+            <!-- Product Listing on the Left -->
+            <div class="cart-items">
+                {% if cart.get_prod.items %}
+                {% for key, item in cart.get_prod.items %}
+                <div class="cart-item">
+                    <div class="product-image">
+                        <img src="{{ item.img }}" alt="Product Image">
+                    </div>
+                    <div class="product-details">
+                        <h2>{{ item.name }}</h2>
+                        <p>Color: OLIVE/MULTI</p>
+                        <p>Size: S</p>
+                        <p>In Stock</p>
+                    </div>
+                    <div class="product-pricing">
+                        <div class="price-label">
+                            <span>Each:</span>
+                            <span class="each-price">{{ item.price }}</span>
+                        </div>
+                        <div class="quantity">
+                            <label for="quantity">Qty:</label>
+                            <select id="quantity" name="quantity" class="quantity_class" data-product-id="{{ item.id }}">
+                                {% for i in "x"|rjust:"10" %}
+                                <option value="{{ forloop.counter }}" {% if item.qte == forloop.counter %}selected{% endif %}>
+                                    {{ forloop.counter }}
+                                </option>
                             {% endfor %}
-
-                            {% else %}
-                            <tr>
-                                <td colspan="4"style="text-align: center; font-size: 24px; font-weight: bold; padding: 20px;">Your cart is currently empty</td>
-                            </tr>
-
-                            {%endif%}
-                        
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="bill-summary">
-            <h2>Order Summary</h2>
-            <div id="subtotal">Subtotal: ${{ cart.tot_al.total }}</div>
-            <div id="tax">Tax: ${{ cart.tax }}</div>
-            <div id="total">Total: ${{ cart.tot_al.taxed_total }}</div>
-            <div class="btn">
-                <div id="paypal-form">
-                    {{ form.render }}
+                                
+                                 </select>
+                        </div>
+                        <div class="total-price">
+                            <span>$39</span>
+                        </div>
+                    </div>
+                    <div class="actions">
+                        <a href="#">Edit</a> |
+                        <a href="#">Remove</a> |
+                        <a href="#">Move to Wishlist</a> |
+                        <a href="#">Save for Later</a>
+                    </div>
                 </div>
-                
-              <a href="{% url 'myapp:shipping_info' %}"><button  class="checkout-btn">shipping information</button></a>
+                {% endfor %}
+                {% endif %}
             </div>
-            
-            
-        </div>
-    </div>
-    <script>
-
-
-function updatePayPalForm() {
-    $.ajax({
-        url: '{% url "myapp:cartTab" %}',
-        type: 'GET',
-        data: {
-            action:'update_paypal'
-        },
-        dataType: 'json',
-        success: function(data) {
-            $('#paypal-form').html(data.form_html);
-           
-            
-        },
-        error: function(xhr, status, error) {
-            console.error("Error updating PayPal form:", error);
-        }
-    });
-}
-
-
-
-
-        $(document).on('click', '.update', function(e) {
-            e.preventDefault();
-            var $this = $(this);
-            $.ajax({
-                type: 'POST',
-                url: "{% url 'myapp:update' %}",
-                data: {
-                    product_id: $this.val(),
-                    qte: $this.prev("select").val(),
-                    csrfmiddlewaretoken: '{{ csrf_token }}',
-                    action: 'update'
-                },
-                success: function(json) {
-                    let total = $this.closest('td').next('td');
-                    total.text('$' + (json.qte * json.price).toFixed(2));
-                    let btn=document.createElement("button")
-                    btn.classList.add("delete")
-                    btn.textContent='delete'
-                    btn.value=$this.val()
-                    total.append(btn)
-                    document.getElementById('subtotal').textContent="Subtotal: $"+json.total
-                    document.getElementById('total').textContent="Total: "+json.taxed_total
-                    updatePayPalForm()
-                }
-            });
-        });
-
-        $(document).on('click','.delete',function(e){
-            e.preventDefault();
-            let $this = $(this);
-            $.ajax({
-                type:'POST',
-                url: "{% url 'myapp:delete_pro' %}",
-                data:{
-                    product_id:$this.val(),
-                    csrfmiddlewaretoken: '{{ csrf_token }}',
-                    action: 'delete'
-                },
-                success:function(json){
-                    let element = $this.parent().parent()
-                    element.remove();
-                    document.getElementById('span_quantity').textContent=json.len;
-                    document.getElementById('subtotal').textContent="Subtotal: $"+json.total
-                    document.getElementById('total').textContent="Total: $"+json.taxed_total
-                    updatePayPalForm()
-                    if (json.len==0){
-                        document.querySelector('table tbody').innerHTML=`
-                        <tr>
-                                <td colspan="4"style="text-align: center; font-size: 24px; font-weight: bold; padding: 20px;">Your cart is currently empty</td>
-                            </tr>
-                        `
-                    }
-                }
-            })
-        })
-       
         
-        $(document).on('change','#category',function(e){
-            e.preventDefault();
-            let category = $(this).val();
-            $.ajax({
-                type:'POST',
-                url: "{% url 'myapp:category' %}",
-                data:{
-                    category:category,
-                    csrfmiddlewaretoken: '{{ csrf_token }}',
-                    action: 'category'
-                },
-    
-            
-            })
-    
-        })
+            <!-- Checkout Section on the Right -->
+            <div class="cart-checkout">
+                <div class="promo-code">
+                    <input type="text" placeholder="Promo Code">
+                    <button>Submit</button>
+                </div>
+                <div class="order-summary">
+                    <p>Shipping cost: TBD</p>
+                    <p>Discount: - $0</p>
+                    <p>Tax: TBD</p>
+                    <p><strong>Estimated Total: $39.99</strong></p>
+                </div>
+                <button class="checkout-btn">Checkout</button>
+            </div>
+        </div>
+        
+<script>
 
-        function showPopup(message, type) {
-    const popupContainer = document.getElementById('popup-messages');
-    const popup = document.createElement('div');
-    popup.className = `popup ${type}`;
-    
-    const popupText = document.createElement('span');
-    popupText.textContent = message;
-    
-    const closeBtn = document.createElement('button');
-    closeBtn.className = 'close-popup';
-    closeBtn.innerHTML = '&times;';
-    closeBtn.onclick = () => popup.style.display = 'none';
-    
-    popup.appendChild(popupText);
-    popup.appendChild(closeBtn);
-    popupContainer.appendChild(popup);
-    
-    // Auto-close the popup after 3 seconds
-    setTimeout(() => popup.style.display = 'none', 3000);
-}
+    // Listen for changes on any select element with class 'quantity-input'
+    $('.quantity_class').on('change', function() {
+        var $select = $(this);
+        var newQuantity = $select.val();
+        var productId = $select.data('product-id');  // Assuming you add a data-product-id attribute to your select
 
+        // Prepare the data to be sent
+        var data = {
+            product_id: productId,
+            qte: newQuantity
+        };
 
-window.onload = function() {
-    const popups = document.querySelectorAll('.popup');
-    popups.forEach(popup => {
-        setTimeout(() => {
-            popup.style.display = 'none';
-        }, 3000); // Disappears after 3 seconds
+        // Send the AJAX request
+        $.ajax({
+            url: '{% url "myapp:update" %}',  // Replace with your actual endpoint
+            type: 'POST',
+            data: data,
+            action: 'update', 
+            success: function(response){
+                
+            },
+            error: function(xhr, status, error) {
+                console.error('Error updating quantity:', error);
+            }
+        });
     });
-};
 
+    // Function to update the total price in the UI
+    function updateTotalPrice(newTotal) {
+        $('.total-price').text('€ ' + newTotal.toFixed(2));
+    }
 
-    </script>
+</script>
+    {% include "footer.html" %}
 </body>
 </html>
-   

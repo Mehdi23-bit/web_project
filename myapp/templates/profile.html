@@ -5,10 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% load static %}
 <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+
+
     <title>Document</title>
 </head>
 <body>
     {% include "header.html" %}
+    <section class="parallax-section" id="section1" style="background-image: url('{% static 'img/profile.jpg' %}');">
+                <div class="overlay">
+            <h1>Parallax Section 1</h1>
+            <p>This is a sample parallax scrolling effect.</p>
+        </div>
+    </section>
+
+    
     <div class="account">
        
         <div class="content">

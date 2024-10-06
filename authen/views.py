@@ -5,6 +5,7 @@ from django.contrib.auth import logout
 from .forms import LoginForm,SignInForm
 from django.contrib import messages
 from .models import Profile
+from .models import UserPersistentData
 from .save_session import load_persistent_data,save_persistent_data
 @login_required
 def custom_logout_view(request):
@@ -42,7 +43,9 @@ def login_(request):
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
             user = authenticate(username=username, password=password)
+            user_data, created = UserPersistentData.objects.get_or_create(user=user)
             #if user is not None:
+            user_data.save()
             request.session['session_key'] = load_persistent_data(user)
             login(request, user)
             if user.is_superuser:

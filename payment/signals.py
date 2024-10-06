@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 from payment.models import Shipping
 from myapp.models import Produit
 import copy
+from django.http import JsonResponse
+from django.core.cache import cache
 
 
 @receiver(valid_ipn_received)
@@ -32,6 +34,8 @@ def valid_ipn_received_handler(sender, **kwargs):
     order.data=order_data
     order.save()
     print("order has been  created")
+    cache.set(f'payment_status_{user_id}', 'completed', timeout=3600) 
+    
    
 
 @receiver(invalid_ipn_received)

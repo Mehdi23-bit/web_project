@@ -1,2 +1,41 @@
-<h1>success</h1>
-<a href="{% url "myapp:cartTab" %}">cartTab</a>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Processing Payment</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Processing Your Payment</h1>
+    <p>Please wait while we confirm your payment. This may take a few moments.</p>
+    <div id="status"></div>
+
+    <script>
+        function checkPaymentStatus() {
+            $.ajax({
+                url: '{% url "payment:check_payment_status" %}',
+                method: 'POST',
+                data: {
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                success: function(response) {
+                    if (response.status === 'completed') {
+                        $('#status').text('Payment confirmed! Redirecting...');
+                        window.location.href = '{% url "myapp:product_list" %}';
+                    } else {
+                        $('#status').text('Still processing. Please wait...');
+                        setTimeout(checkPaymentStatus, 5000);  // Check again in 5 seconds
+                    }
+                },
+                error: function() {
+                    $('#status').text('Error checking status. Retrying...');
+                    setTimeout(checkPaymentStatus, 5000);  // Retry in 5 seconds
+                }
+            });
+        }
+
+        $(document).ready(function() {
+            checkPaymentStatus();  // Start checking as soon as page loads
+        });
+    </script>
+</body>
+</html>

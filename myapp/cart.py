@@ -21,19 +21,21 @@ class Cart:
         product_id = str(product.id)
         
         if product_id in self.cart:
-            # Increase the quantity if the product is already in the cart
-            self.session.modified = False
+            
+          self.cart[product_id]["qte"]+=1           
         else:
             # Add the product to the cart with an initial quantity of 1
             self.cart[product_id] = {"qte": 1,"name":product.nom}
             
-            session_key = self.session['session_key']
-            save_persistent_data(self.user, session_key)
-            self.session.modified = True
+        session_key = self.session['session_key']
+        save_persistent_data(self.user, session_key)
+        print(self.cart)
+        
 
     def __len__(self):
+       print("les items sont : ")
         # Return the total number of unique products in the cart
-        return len(self.cart)
+       return sum(item["qte"] for item in self.cart.values()) 
 
     def get_prod(self):
         ids = list(self.cart.keys())

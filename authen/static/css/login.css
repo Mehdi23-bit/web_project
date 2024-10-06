@@ -1,171 +1,164 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
+
+:root {
+  --bg-color: #f0f0f0;
+  --text-color: #333;
+  --input-bg: #fff;
+  --input-border: #e0e0e0;
+  --button-bg: #333;
+  --button-text: #fff;
+  --link-color: #1a73e8;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: #646077;
-    color: #fff;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+  font-family: 'Roboto', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
 
-#part {
-    display: flex;
-    width: 80%;
-    max-width: 1200px;
-    background-color: #26283B;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+.login-container {
+  background-color: var(--input-bg);
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  width: 400px;
+  max-width: 90%;
 }
 
-#left-side {
-    flex: 1;
-    position: relative;
-}
-
-#left-side img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.text-overlay {
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
-    right: 20px;
-    text-align: center;
-    color: #fff;
-    background-color: rgba(0, 0, 0, 0.5);
-    padding: 10px;
-    border-radius: 5px;
-}
-
-#right-side {
-    flex: 1;
-    padding: 40px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    background-color: #2F2841;
+.login-form {
+  display: flex;
+  flex-direction: column;
 }
 
 h1 {
-    margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: 500;
+  margin-bottom: 24px;
+  text-align: center;
 }
 
-#signup_div {
-    margin-bottom: 20px;
+label {
+  display: none;
 }
 
-#signup_div a {
-    color: #8266D4;
-    text-decoration: none;
+input[type="text"],
+input[type="password"] {
+  width: 100%; /* Ensures both input fields take up the full width */
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  background-color: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 24px;
+  font-size: 16px;
 }
 
-#signup_div a:hover {
-    text-decoration: underline;
+input[type="text"]:focus,
+input[type="password"]:focus {
+  outline: none;
+  border-color: var(--link-color);
 }
 
-#form {
-    width: 100%;
-}
 
-#form div {
-    margin-bottom: 20px;
-}
 
-input {
-    width: calc(100% - 22px);
-    padding: 10px;
-    border: 1px solid #5C5470;
-    border-radius: 5px;
-    background-color: #3D335B;
-    color: #fff;
-    font-size: 16px;
-}
-
-button {
-    width: 100%;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    background-color: #8266D4;
-    color: #fff;
-    font-size: 18px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #6951A3;
+button[type="submit"]:hover {
+  background-color: #555;
 }
 
 .social {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
+  margin-top: 16px;
 }
 
-.social .go, .social .fb {
-    flex: 1;
-    padding: 10px;
-    margin: 0 5px;
-    text-align: center;
-    border-radius: 5px;
-    cursor: pointer;
+
+
+.login-with-google-btn:hover {
+  background-color: #f5f5f5;
 }
 
-.social .go {
-    background-color: #DB4437;
-    color: #fff;
+.login-with-google-btn i {
+  margin-right: 8px;
 }
 
-.social .fb {
-    background-color: #3B5998;
-    color: #fff;
+#signup_div {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 14px;
 }
 
-.social .go:hover {
-    background-color: #C33D2F;
+.signup {
+  color: var(--link-color);
+  text-decoration: none;
 }
 
-.social .fb:hover {
-    background-color: #344E86;
+.signup:hover {
+  text-decoration: underline;
 }
 
-.error-popup {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background-color: #FF5C5C;
-    color: #fff;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+input[type="text"]::placeholder,
+input[type="password"]::placeholder {
+  color: #999;
 }
 
-.error-popup button {
-    margin-top: 10px;
-    padding: 5px 10px;
+.remember-forgot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+}
+
+.remember-me input[type="checkbox"] {
+  margin-right: 8px;
+}
+
+.forgot-password {
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+}
+button[type="submit"] {
+    width: 100%; /* Ensure it takes up the full width like the Google button */
+    padding: 12px 16px;
+    background-color: var(--button-bg);
+    color: var(--button-text);
     border: none;
-    background-color: #FF3333;
-    color: #fff;
+    border-radius: 24px;
+    font-size: 16px;
     cursor: pointer;
-    border-radius: 5px;
-}
-
-.error-popup button:hover {
-    background-color: #E62E2E;
-}
-
-.overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1;
-}
+    transition: background-color 0.3s;
+    margin-bottom: 16px;
+  }
+  
+  .login-with-google-btn {
+    width: 100%; /* This is already present, so no need to change */
+    padding: 12px 16px;
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    border: 1px solid var(--input-border);
+    border-radius: 24px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s;
+    text-decoration: none;
+  }
+  

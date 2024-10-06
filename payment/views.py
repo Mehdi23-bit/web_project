@@ -3,7 +3,9 @@ from payment.forms import CustomPayPalPaymentsForm
 from django.urls import reverse
 from ll_project.settings import PAYPAL_RECEIVER_EMAIL
 from django.views.decorators.csrf import csrf_exempt
-
+from django.views.decorators.http import require_POST
+from django.core.cache import cache 
+from django.http import JsonResponse
 
 def pay(request):
     paypal_dict = {
@@ -22,11 +24,18 @@ def pay(request):
     form = CustomPayPalPaymentsForm(initial=paypal_dict)
     context = {"form": form}
     return render(request,'payment.html',context)
+
 @csrf_exempt
 def return_view(request):
     return render(request,'success.html')
+
 @csrf_exempt
 def cancel_view(request):
     return render(request,'cancel.html')
 
+@require_POST
+def check_payment_status(request):
+    user_id = request.user.id  
+    payment_status = cache.get(f'payment_status_{user_id}', 'pending')  
+    return JsonResponse({'status': payment_status})
 

@@ -14,7 +14,10 @@ urlpatterns = [
     path('category/',views.category,name='category'),
     path('shipping_info/',views.shipping_info,name="shipping_info"),
     path('update_ship/',views.update_ship,name='update_ship'),
-    path('orders/',views.orders,name='orders')
+    path('orders/',views.orders,name='orders'),
+    path('home/',views.home,name='home'),
+    path("men/",views.clothes_category,name="clothes_category")
+
 ]
 
 

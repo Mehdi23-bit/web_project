@@ -5,114 +5,222 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>home</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/header.css' %}">
+    <link rel="stylesheet" href="{% static 'css/footer.css' %}">
+
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <style>
+        .parallax-section {
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .background-slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            transition: transform 1s ease-in-out;
+        }
+
+        .current {
+            transform: translateX(0);
+            z-index: 1; /* Ensure current slide is on top */
+        }
+
+        .next {
+            transform: translateX(100%);
+        }
+
+        .overlay {
+            position: relative;
+            z-index: 2;
+            color: white;
+            text-align: center;
+        }
+          /* Styling for the category section */
+          .category-section {
+            display: flex;
+            justify-content: space-around; /* Space between images */
+            padding: 50px;
+            background-color: #f4f4f4;
+        }
+
+        .category {
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .category img {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .category img:hover {
+            transform: scale(1.05); /* Slight zoom effect on hover */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+        }
+
+        .category h3 {
+            margin-top: 10px;
+            font-size: 1.2rem;
+            color: #333;
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
     {% include "header.html" %}
     
-    <div class="container">
-        
-         <div class="list-product">
-             {% for product in products %}
-            <div class="item">
-                <img src="{{ product.image.url }}" alt="Example Image">
-                <h1>{{ product.nom }}</h1>
-                <div class="price">${{ product.prix }}</div>
-                <button class="addtocard" value='{{ product.id }}'>
-                    Add To Card
-                </button>
-            </div>
-            {% endfor %}
-         </div>
-    </div>
+    <section class="parallax-section" id="section1">
+        <div class="background-slider">
+            <div class="slide current"></div>
+            <div class="slide next"></div>
+        </div>
+        <div class="overlay">
+            <h1>Shopping</h1>
+            <p>Discover Your Style, Elevate Your Life</p>
+        </div>
+    </section>
+    <section class="content-section">
+        <h2>Welcome to Our Clothing Store!</h2>
+        <p>We are excited to offer you a wide range of clothing collections designed to suit every style, preference, and occasion. Our categories are thoughtfully curated to make your shopping experience smooth and enjoyable. Explore our key categories below:</p>
+    </section>
+    <section class="category-section">
+        <!-- Men's Category -->
+        <div class="category">
+            <a href="{% url 'myapp:clothes_category' %}?type=Man">
+                <img src="{% static 'img/men.jpg' %}" alt="Men's Clothes">
+                <h3>Men</h3>
+            </a>
+        </div>
 
-    
-        
+        <!-- Women's Category -->
+        <div class="category">
+            <a href="{% url 'myapp:clothes_category' %}?type=Women">
+                <img src="{% static 'img/women.jpg' %}" alt="Women's Clothes">
+                <h3>Women</h3>
+            </a>
+        </div>
+
+        <!-- Kids' Category -->
+        <div class="category">
+            <a href="{% url 'myapp:clothes_category' %}?type=Kid">
+                <img src="{% static 'img/kids.jpg' %}" alt="Kids' Clothes">
+                <h3>Kids</h3>
+            </a>
+        </div>
+    </section>
+
+{%include "footer.html"%}
+
     <script>
-        $(document).on('click','.addtocard',function(e){
-            e.preventDefault();
-            $.ajax({
-                type:'POST',
-                url:'{% url "myapp:add" %}',
-                data:{
+        const images = [
+            '{% static "img/picture0.jpg" %}',
+            '{% static "img/picture8.jpg" %}',
+            '{% static "img/picture9.jpg" %}',
+            '{% static "img/picture7.jpg" %}'
+        ];
 
-                    product_id:$(this).val(),
-                    csrfmiddlewaretoken: '{{csrf_token}}',
-                    action:'post'
-                },
-                success:function(json){
-                    document.getElementById('span_quantity').textContent=json.length;
-                    if("last_product" in json){
-                    let img=document.createElement('img');
-                    let name=document.createElement("h1");
-                    let price=document.createElement("div");
-                    let select_qte=document.querySelector('select.quantity').cloneNode(true)
-                    img.src= json.last_product.img;
-                    name.textContent=json.last_product.name;
-                    price.textContent="$"+json.last_product.price;
-                    
-                    let list=document.getElementById("shop_cart");
-                    list.append(img,name,price,select_qte);
-                    document.getElementById("cartTab").appendChild(list)
-                    }
+        let currentImageIndex = 0;
+        const slideDuration = 5000; // 5 seconds
 
-                    console.log(json);
-                
+        function changeBackgroundImage() {
+            const currentSlide = document.querySelector('.slide.current');
+            const nextSlide = document.querySelector('.slide.next');
 
-                    
-                },
+            // Set the next image
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+            nextSlide.style.backgroundImage = `url('${images[currentImageIndex]}')`;
 
-                error:function(xhr,errmsg,err){
+            // Trigger the transition
+            currentSlide.style.transform = 'translateX(-100%)';
+            nextSlide.style.transform = 'translateX(0)';
 
-                }
-            });
-        })
-       
-        $(document).on('change','#category',function(e){
-            e.preventDefault();
-            let category = $(this).val();
-            $.ajax({
-                type:'POST',
-                url: '{% url "myapp:category" %}',
-                data:{
-                    category:category,
-                    csrfmiddlewaretoken: '{{ csrf_token }}',
-                    action: 'category'
-                },
+            // After the transition, reset the slides
+            setTimeout(() => {
+                currentSlide.classList.remove('current');
+                currentSlide.classList.add('next');
+                currentSlide.style.transform = 'translateX(100%)';
 
-                success:function(json){
-                    console.log(json.products)
-                    let list_products=document.querySelector('.list-product');
-                    list_products.innerHTML='';
-                    let products=json.products
-                    products.forEach(product=>{
-                        let item=document.createElement("div")
-                        item.className='item';
-                        
-                        item.innerHTML=`
-        
-                        <img src="${product.image}" alt="${product.nom}">
-                        <h1>${product.nom}</h1>
-                        <div class="price">$${product.prix}</div>
-                        <button class="addtocard" value='${product.id}'>
-                        Add To Card
-                        </button>
-                        </div>
-                        `
-                        list_products.append(item)
-                        
-                    })
-                }
+                nextSlide.classList.remove('next');
+                nextSlide.classList.add('current');
+            }, 1000); // Match this with the transition duration in CSS
+        }
+
+        // Initial setup
+        function initializeSlider() {
+            const slides = document.querySelectorAll('.slide');
+            slides[0].style.backgroundImage = `url('${images[0]}')`;
+            slides[0].classList.add('current');
+            slides[1].style.backgroundImage = `url('${images[1]}')`;
+            slides[1].classList.add('next');
+        }
+
+        // Start the slider
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeSlider();
+            setInterval(changeBackgroundImage, slideDuration);
+        });
+        const words = ["Discover Your Style", "Elevate Your Life"];
+        let wordIndex = 0;
+        let letterIndex = 0;
+        let isDeleting = false;
+        const typingSpeed = 150;
+        const deletingSpeed = 100;
+        const delayBetweenWords = 1000; // Delay before moving to the next word
+        const typewriterElement = document.querySelector('.overlay p');
+
+        function type() {
+            const currentWord = words[wordIndex];
             
-            })
-
-        })
+            // If we are not deleting, increment the letter index
+            if (!isDeleting) {
+                letterIndex++;
+            } else {
+                // If we are deleting, decrement the letter index
+                letterIndex--;
+            }
+            
+            // Display the current substring of the word
+            typewriterElement.textContent = currentWord.substring(0, letterIndex);
+            
+            // If the word is fully typed out and we are not deleting, wait and start deleting
+            if (letterIndex === currentWord.length && !isDeleting) {
+                setTimeout(() => isDeleting = true, delayBetweenWords);
+            }
+            
+            // If the word is fully deleted, move to the next word and start typing again
+            if (letterIndex === 0 && isDeleting) {
+                isDeleting = false;
+                wordIndex = (wordIndex + 1) % words.length; // Loop through words
+            }
+            
+            // Set a new timeout to type the next letter (or delete a letter)
+            const speed = isDeleting ? deletingSpeed : typingSpeed;
+            setTimeout(type, speed);
+        }
         
-        
-       
+        // Start the typewriter effect
+        document.addEventListener('DOMContentLoaded', () => {
+            type();
+        });
     </script>
-
-    <script src="{% static 'javascript/script.js' %}"></script>
 </body>
 </html>

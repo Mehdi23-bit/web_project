@@ -17,6 +17,10 @@ from django.views.decorators.csrf import csrf_exempt
 from authen.models import Order
 from django.contrib import messages
 
+@never_cache
+def home(request):
+   return render(request,"home.html")
+@never_cache   
 def profile(request):
     return render(request,'account.html')
 
@@ -160,15 +164,13 @@ def add(request):
     if request.POST.get('action')=='post':
         product_id=int(request.POST.get('product_id'))
         product=get_object_or_404(Produit,id=product_id)
+        print("before printing")
         cart.add(product=product)
-        if  cart.session.modified:
-          response=JsonResponse({'length': len(cart),
-                               'last_product': cart.get_last_prod(),
-                               
-                               })
-        else:
-         response=JsonResponse({'length': len(cart)})   
-        
+        print(len(cart))
+        print("after printing")
+        response=JsonResponse({'length': len(cart),
+                              'last_product': cart.get_last_prod(),
+                                                           })
         return response
     
 
@@ -182,10 +184,10 @@ def update(request):
         cart.update(product_id,qte)
         total=cart.tot_al()
         price=Produit.objects.get(pk=product_id).prix
-        return JsonResponse({"qte":qte,
+        quantity=cart.__len__
+        return JsonResponse({"qte":quantity,
                              "price":price,
                              'total':total['total'],
-                             'taxed_total':total['taxed_total']
                              })
     
 def delete(request):
@@ -241,3 +243,11 @@ def get_ship(user):
         return user.shipping_address.pk
     except Shipping.DoesNotExist:
         return None
+    
+def clothes_category(request):
+   if request.method=="GET":
+     type=request.GET.get("type")
+     products=Produit.objects.filter(category=type)
+     num = products.count()
+     return render(request,"clothes_category.html",{"category":type,"number":num,"products":products})
+     

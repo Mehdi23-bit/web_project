@@ -6,16 +6,9 @@ from django.contrib.auth.forms import PasswordChangeForm
 
 
 class LoginForm(forms.Form):
-    username = forms.CharField(
-        widget=forms.TextInput(attrs={
-            'placeholder': 'Enter your username',
-            'class': 'form-control'  # optional, if you want to add CSS classes
-        })
-    )
-    password = forms.CharField(label='le mot de passe', widget=forms.PasswordInput(attrs={
-        'placeholder': 'Enter your password',
-         'class': 'form-control'
-    }))
+  
+   username = forms.CharField(max_length=150)
+   password = forms.CharField(widget=forms.PasswordInput)
 
 
 class SignInForm(UserCreationForm):

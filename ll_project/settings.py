@@ -32,10 +32,10 @@ SECRET_KEY = 'django-insecure-u510lzwpsgmlz99%&8^$3%dz^0ecg&wvkypsm))k)n33v#nsn+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["4149-197-147-182-191.ngrok-free.app","localhost",'127.0.0.1' ]
+ALLOWED_HOSTS = ["786c-105-74-75-82.ngrok-free.app","localhost",'127.0.0.1' ]
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://4149-197-147-182-191.ngrok-free.app',  # Replace with your actual Ngrok URL
+    'https://786c-105-74-75-82.ngrok-free.app',  # Replace with your actual Ngrok URL
 ]
 
 # Application definition
@@ -71,7 +71,8 @@ MIDDLEWARE = [
     'allauth.account.middleware.AccountMiddleware',
     'social_django.middleware.SocialAuthExceptionMiddleware',
     'authen.middleware.RequestLoggingMiddleware',
-     'authen.middleware.RequestMiddleware'
+     'authen.middleware.RequestMiddleware',
+     'django.contrib.sessions.middleware.SessionMiddleware'
 ]
 
 ROOT_URLCONF = 'll_project.urls'
