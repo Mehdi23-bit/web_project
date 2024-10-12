@@ -28,8 +28,8 @@
             <!-- Product Listing on the Left -->
             <div class="cart-items">
                 {% if cart.get_prod.items %}
-                {% for key, item in cart.get_prod.items %}
-                <div class="cart-item">
+                {% for key, item in cart.get_prod.items.items %}
+                <div class="cart-item" data-product-id="{{ item.id }}">
                     <div class="product-image">
                         <img src="{{ item.img }}" alt="Product Image">
                     </div>
@@ -56,12 +56,12 @@
                                  </select>
                         </div>
                         <div class="total-price">
-                            <span>$39</span>
+                            <span class="span">${{ item.pro_total }}</span>
                         </div>
                     </div>
                     <div class="actions">
                         <a href="#">Edit</a> |
-                        <a href="#">Remove</a> |
+                        <a href="#" class="remove-item">Remove</a> |
                         <a href="#">Move to Wishlist</a> |
                         <a href="#">Save for Later</a>
                     </div>
@@ -71,56 +71,107 @@
             </div>
         
             <!-- Checkout Section on the Right -->
+            
+             
+            
+
             <div class="cart-checkout">
-                <div class="promo-code">
-                    <input type="text" placeholder="Promo Code">
-                    <button>Submit</button>
-                </div>
                 <div class="order-summary">
-                    <p>Shipping cost: TBD</p>
-                    <p>Discount: - $0</p>
-                    <p>Tax: TBD</p>
-                    <p><strong>Estimated Total: $39.99</strong></p>
+                    <p class="total-price">Total: ${{cart.get_prod.total}}</p>
+                    <p class="discount">Discount: - ${{ cart.get_prod.discount }}</p>
+                    <p class="final-total"><strong> Estimated Total: ${{ cart.get_prod.final_total }}</strong></p>
                 </div>
-                <button class="checkout-btn">Checkout</button>
+                <button class="checkout-btn"><a href="{% url 'myapp:shipping_info' %}">Checkout</a></button>
+            </div>
+
             </div>
         </div>
         
 <script>
 
     // Listen for changes on any select element with class 'quantity-input'
-    $('.quantity_class').on('change', function() {
-        var $select = $(this);
-        var newQuantity = $select.val();
-        var productId = $select.data('product-id');  // Assuming you add a data-product-id attribute to your select
+    // Assuming you add a data-product-id attribute to your select
 
         // Prepare the data to be sent
-        var data = {
-            product_id: productId,
-            qte: newQuantity
-        };
+        
 
         // Send the AJAX request
+        $('.quantity_class').on('change', function() {
+    var $select = $(this);
+    var newQuantity = $select.val();
+    var productId = $select.data('product-id');  // Get the product ID from the data attribute
+
+    // Send the AJAX request
+    $.ajax({
+        url: '{% url "myapp:update" %}',  // Replace with your actual endpoint
+        type: 'POST',
+        data: {
+            product_id: productId,
+            qte: newQuantity,
+            csrfmiddlewaretoken: '{{ csrf_token }}',  // Make sure the CSRF token is populated
+            action: 'update'
+        },
+        success: function(response) {
+            // Update cart icon or other elements dynamically
+            console.log("Quantity updated successfully:", response);
+            document.querySelector('.cart-count').textContent = response.qte;
+        var parentDiv = $select.parent();
+        var nextDiv = parentDiv.next('.total-price');
+        var spanElement = nextDiv.find('.span');
+        console.log(response.price);  
+        spanElement.text('$' + response.price);
+        console.log($select);
+        $('.order-summary .total-price').text('Total: $' + response.total);
+                $('.order-summary .discount').text('Discount: -$' + response.discount);
+                $('.order-summary .final-total').text('Estimated Total: $' + response.final_total);
+        },
+        error: function() {
+            console.error('Error updating quantity');
+            alert('Failed to update quantity. Please try again.');
+        }
+    });
+});
+
+$(document).on('click', '.remove-item', function(event) {
+    event.preventDefault(); 
+
+    var $cartItem = $(this).closest('.cart-item'); 
+    var productId = $cartItem.data('product-id'); 
+
+    
+    if (confirm('Are you sure you want to remove this item from the cart?')) {
+        
         $.ajax({
-            url: '{% url "myapp:update" %}',  // Replace with your actual endpoint
+            url: '{% url "myapp:delete_pro" %}', 
             type: 'POST',
-            data: data,
-            action: 'update', 
-            success: function(response){
-                
+            data: {
+                product_id: productId,
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action:'delete' 
+            },
+            success: function(response) {
+                console.log('Item removed successfully:', response);
+                document.querySelector('.cart-count').textContent = response.qte;
+                $cartItem.remove(); 
+                $('.order-summary .total-price').text('Total: $' + response.total);
+                $('.order-summary .discount').text('Discount: -$' + response.discount);
+                $('.order-summary .final-total').text('Estimated Total: $' + response.final_total);
+                console.log(response.final_total)
             },
             error: function(xhr, status, error) {
-                console.error('Error updating quantity:', error);
+                console.error('Error removing item:', error);
+                alert('Failed to remove item from cart. Please try again.');
             }
         });
-    });
-
-    // Function to update the total price in the UI
-    function updateTotalPrice(newTotal) {
-        $('.total-price').text('€ ' + newTotal.toFixed(2));
     }
+});
 
-</script>
+
+    
+
+
+
+    </script>
     {% include "footer.html" %}
 </body>
 </html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <!-- Link to your CSS file -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/header.css' %}">
+
+    <link rel="icon" href="{% static 'img/picture1.jpg'%} type="image/x-icon"> <!-- Use the correct path -->
+   
+</head>
+<body>
+
+    {% include "header.html" %}
+    <section class="parallax-section" id="section1" style="background-image: url('{% static 'img/picture1.jpg' %}');">
+        <div class="overlay">
+            <h1>Step into Style</h1>
+            <p>Your one-stop shop for the latest fashion trends. Shop now and refresh your wardrobe with our exclusive collections!</p>
+        </div>
+    </section>
+
+    <!-- Content Section 1: About Us -->
+    <section class="content-section">
+        <h2>About Us</h2>
+        <p>Welcome to [Your Store Name], where fashion meets personality. Our mission is to provide the latest trends, timeless essentials, and everything in between, so you can express your style effortlessly.</p>
+        <p>From chic dresses to cozy hoodies, and must-have accessories, we’ve got it all. Enjoy seamless shopping and fast delivery – because your style can’t wait!</p>
+    </section>
+
+    <!-- Parallax Section 2: Featured Products -->
+    <section class="parallax-section" id="section2" style="background-image: url('{% static 'img/picture2.jpg' %}');">
+        <div class="overlay">
+            <h1>Shop the Latest Trends</h1>
+            <p>Stay ahead of the curve with our trending picks. From streetwear to formalwear, discover what’s hot this season.</p>
+        </div>
+    </section>
+
+    <!-- Content Section 2: Special Offers -->
+    <section class="content-section">
+        <h2>Exclusive Offers</h2>
+        <p>Get 15% off your first order – use code: WELCOME15. Plus, enjoy free shipping on all orders above $50!</p>
+        <p>Limited-time sale: Save up to 40% on select items! Hurry, these deals won’t last long.</p>
+    </section>
+
+    <!-- Parallax Section 3: Customer Testimonials -->
+    <section class="parallax-section" id="section3" style="background-image: url('{% static 'img/picture4.jpg' %}');">
+        <div class="overlay">
+            <h1>What Our Customers Are Saying</h1>
+            <p>"The quality is amazing! I love my new jacket, and the delivery was super fast. Highly recommended!"</p>
+            <p>"Stylish, comfortable, and affordable – my go-to store for all things fashion!"</p>
+        </div>
+    </section>
+    
+{% include 'footer.html' %}
+
+</body>
+</html>

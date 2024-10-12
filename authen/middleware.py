@@ -37,3 +37,17 @@ class RequestMiddleware:
     @staticmethod
     def get_request():
         return getattr(_thread_locals, 'request', None)
+
+from myapp.cart import Cart
+
+class PersistentCartMiddleware:
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        if request.user.is_authenticated:
+            print("Updating session with persistent data")
+            session_data = load_persistent_data(request.user)
+            print(request.session)
+        response = self.get_response(request)
+        return response

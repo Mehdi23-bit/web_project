@@ -8,7 +8,7 @@ class Cart:
         self.session = request.session
         cart = self.session.get('session_key')
         self.user = request.user
-        self.tax=Decimal('1.1')
+        self.discount_rate = Decimal('0.10')
         
         if not cart:
             # Initialize the cart if it doesn't exist in the session
@@ -18,6 +18,7 @@ class Cart:
         self.cart = cart
 
     def add(self, product):
+        
         product_id = str(product.id)
         
         if product_id in self.cart:
@@ -33,13 +34,14 @@ class Cart:
         
 
     def __len__(self):
-       print("les items sont : ")
-        # Return the total number of unique products in the cart
-       return sum(item["qte"] for item in self.cart.values()) 
+        return sum(item["qte"] for item in self.cart.values()) 
 
     def get_prod(self):
         ids = list(self.cart.keys())
         products = {}
+        total=self.tot_al()
+        discount = self.get_discount(total)  
+        final_total = total - discount
         
         # Retrieve all products with a single query for efficiency
         product_objects = Produit.objects.filter(pk__in=ids)
@@ -53,10 +55,16 @@ class Cart:
                 "price": product.prix,
                 "qte": qte,
                 "id":product.id,
-                "total":qte*product.prix
+                "pro_total":qte*product.prix,
+                "total":total,
             }
         
-        return products
+        return {"items":products,"total": total, "discount": discount, "final_total": final_total}
+    
+    def get_discount(self, total):
+        # Apply discount logic
+        return total * self.discount_rate
+
 
     def get_last_prod(self):
         # Get the last product added to the cart
@@ -79,26 +87,28 @@ class Cart:
         
 
     def delete(self,product_id):
+      
       print("i am deleting1")
       del  self.cart[str(product_id)]
       print('i am deleting2')
       session_key = self.session['session_key']
       save_persistent_data(self.user, session_key)
       
+      
 
     def tot_al(self):
         total=0
         for item in list( self.cart.keys()):
            total=total+(Produit.objects.get(pk=int(item)).prix)*(self.cart[item]["qte"])
-
-        taxed_total=total*self.tax
-
-        return {
-            'total':total,
-            'taxed_total':taxed_total
-        }
+        return total
+           
     def get_names(self):
        names=[]
        for id in list(self.cart.keys()):
            names.append(self.cart[id]['name'])
        return names
+    
+    def clear(self):
+        """Clear all products from the cart."""
+        self.cart.clear()
+        

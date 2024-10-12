@@ -32,10 +32,10 @@ SECRET_KEY = 'django-insecure-u510lzwpsgmlz99%&8^$3%dz^0ecg&wvkypsm))k)n33v#nsn+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["786c-105-74-75-82.ngrok-free.app","localhost",'127.0.0.1' ]
+ALLOWED_HOSTS = ["393e-105-74-64-83.ngrok-free.app","localhost",'127.0.0.1' ]
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://786c-105-74-75-82.ngrok-free.app',  # Replace with your actual Ngrok URL
+    'https://393e-105-74-64-83.ngrok-free.app',  # Replace with your actual Ngrok URL
 ]
 
 # Application definition
@@ -53,7 +53,8 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'paypal.standard.ipn',
     'payment.apps.PaymentConfig',
-    'social_django'
+    'social_django',
+    
 
 ]
 PAYPAL_TEST = True
@@ -71,6 +72,7 @@ MIDDLEWARE = [
     'allauth.account.middleware.AccountMiddleware',
     'social_django.middleware.SocialAuthExceptionMiddleware',
     'authen.middleware.RequestLoggingMiddleware',
+    'authen.middleware.PersistentCartMiddleware',
      'authen.middleware.RequestMiddleware',
      'django.contrib.sessions.middleware.SessionMiddleware'
 ]
@@ -216,3 +218,11 @@ APPEND_SLASH = True
 SESSION_SAVE_EVERY_REQUEST = True
 if DEBUG:
     WHITENOISE_AUTOREFRESH = True
+PAYPAL_URL = "https://www.sandbox.paypal.com/cgi-bin/webscr"  # Sandbox PayPal URL for testing
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'elmehdiiskandar3@gmail.com'  # Replace with your email
+EMAIL_HOST_PASSWORD = 'zivp kgll ipxv siqi'  # Replace with your email password

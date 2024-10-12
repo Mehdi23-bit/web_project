@@ -6,6 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.core.cache import cache 
 from django.http import JsonResponse
+from myapp.cart import Cart
 
 def pay(request):
     paypal_dict = {
@@ -39,3 +40,9 @@ def check_payment_status(request):
     payment_status = cache.get(f'payment_status_{user_id}', 'pending')  
     return JsonResponse({'status': payment_status})
 
+def clear(request):
+    cart=Cart(request)
+    cart.clear()
+    print("i am clearing the fucking cart ,yes i am clearing i am gone shut the fuck the fucking teacher ,shut the fuck up")   
+    return JsonResponse({}, status=200)
+    

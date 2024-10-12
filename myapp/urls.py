@@ -16,8 +16,10 @@ urlpatterns = [
     path('update_ship/',views.update_ship,name='update_ship'),
     path('orders/',views.orders,name='orders'),
     path('home/',views.home,name='home'),
-    path("men/",views.clothes_category,name="clothes_category")
-
+    path("men/",views.clothes_category,name="clothes_category"),
+    path("update_profile/",views.update_profile,name="update_profile"),
+    path('contactus/',views.contact_view,name="contact_us"),
+    
 ]
 
 

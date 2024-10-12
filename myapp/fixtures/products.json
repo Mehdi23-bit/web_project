@@ -1,0 +1,302 @@
+[
+    {
+        "model": "myapp.Produit",
+        "pk": 1,
+        "fields": {
+            "nom": "Elegant Essence",
+            "prix": 853.66,
+            "quantite": 65,
+            "image": "photos/pict0.jpeg",
+            "description": "This is the description of Elegant Essence",
+            "category": "Women"
+        }
+    },
+    {
+        "model": "myapp.Produit",
+        "pk": 2,
+        "fields": {
+            "nom": "Midnight Charm",
+            "prix": 676.69,
+            "quantite": 75,
+            "image": "photos/pict1.jpeg",
+            "description": "This is the description of Midnight Charm",
+            "category": "Women"
+        }
+    },
+    {
+        "model": "myapp.Produit",
+        "pk": 3,
+        "fields": {
+            "nom": "Timeless Beauty",
+            "prix": 493.68,
+            "quantite": 3,
+            "image": "photos/pict2.jpeg",
+            "description": "This is the description of Timeless Beauty",
+            "category": "Women"
+        }
+    },
+    {
+        "model": "myapp.Produit",
+        "pk": 4,
+        "fields": {
+            "nom": "Autumn Whisper",
+            "prix": 861.93,
+            "quantite": 97,
+            "image": "photos/pict3.jpeg",
+            "description": "This is the description of Autumn Whisper",
+            "category": "Women"
+        }
+    },
+    {
+        "model": "myapp.Produit",
+        "pk": 5,
+        "fields": {
+            "nom": "Sunset Dream",
+            "prix": 716.54,
+            "quantite": 12,
+            "image": "photos/pict4.jpeg",
+            "description": "This is the description of Sunset Dream",
+            "category": "Women"
+        }
+    },
+    {
+        "model": "myapp.Produit",
+        "pk": 6,
+        "fields": {
+            "nom": "Modern Allure",
+            "prix": 781.34,
+            "quantite": 74,
+            "image": "photos/pict5.jpeg",
+            "description": "This is the description of Modern Allure",
+            "category": "Women"
+        }
+    },
+    {
+        "model": "myapp.Produit",
+        "pk": 7,
+        "fields": {
+            "nom": "Golden Glow",
+            "prix": 703.21,
+            "quantite": 97,
+            "image": "photos/pict6.jpeg",
+            "description": "This is the description of Golden Glow",
+            "category": "Women"
+        }
+    },
+    {
+        "model": "myapp.Produit",
+        "pk": 8,
+        "fields": {
+            "nom": "Bold Spirit",
+            "prix": 941.27,
+            "quantite": 33,
+            "image": "photos/pict7.jpeg",
+            "description": "This is the description of Bold Spirit",
+            "category": "Women"
+        }
+    },
+    {
+        "model": "myapp.Produit",
+        "pk": 9,
+        "fields": {
+            "nom": "Ocean Breeze",
+            "prix": 647.74,
+            "quantite": 64,
+            "image": "photos/pict8.jpeg",
+            "description": "This is the description of Ocean Breeze",
+            "category": "Women"
+        }
+    },
+    {
+        "model": "myapp.Produit",
+        "pk": 10,
+        "fields": {
+            "nom": "Enchanted Night",
+            "prix": 500.89,
+            "quantite": 23,
+            "image": "photos/pict9.jpeg",
+            "description": "This is the description of Enchanted Night",
+            "category": "Women"
+        }
+    },
+    {
+        "model": "myapp.Produit",
+        "pk": 11,
+        "fields": {
+            "nom": "Pure Grace",
+            "prix": 669.33,
+            "quantite": 92,
+            "image": "photos/pict10.jpeg",
+            "description": "This is the description of Pure Grace",
+            "category": "Women"
+        }
+    },
+    {
+        "model": "myapp.Produit",
+        "pk": 12,
+        "fields": {
+            "nom": "Soft Touch",
+            "prix": 663.94,
+            "quantite": 28,
+            "image": "photos/pict11.jpeg",
+            "description": "This is the description of Soft Touch",
+            "category": "Women"
+        }
+    },
+    {
+        "model": "myapp.Produit",
+        "pk": 13,
+        "fields": {
+            "nom": "Urban Chic",
+            "prix": 886.35,
+            "quantite": 19,
+            "image": "photos/pict12.jpeg",
+            "description": "This is the description of Urban Chic",
+            "category": "Women"
+        }
+    },
+    {
+        "model": "myapp.Produit",
+        "pk": 14,
+        "fields": {
+            "nom": "Classic Allure",
+            "prix": 501.61,
+            "quantite": 43,
+            "image": "photos/pict13.jpeg",
+            "description": "This is the description of Classic Allure",
+            "category": "Women"
+        }
+    },
+    {
+        "model": "myapp.Produit",
+        "pk": 15,
+        "fields": {
+            "nom": "Vintage Vibe",
+            "prix": 737.61,
+            "quantite": 4,
+            "image": "photos/pict14.jpeg",
+            "description": "This is the description of Vintage Vibe",
+            "category": "Women"
+        }
+    },
+    {
+        "model": "myapp.Produit",
+        "pk": 16,
+        "fields": {
+            "nom": "Effortless Style",
+            "prix": 516.49,
+            "quantite": 38,
+            "image": "photos/pict15.jpeg",
+            "description": "This is the description of Effortless Style",
+            "category": "Women"
+        }
+    },
+    {
+        "model": "myapp.Produit",
+        "pk": 17,
+        "fields": {
+            "nom": "Radiant Charm",
+            "prix": 773.07,
+            "quantite": 65,
+            "image": "photos/pict16.jpeg",
+            "description": "This is the description of Radiant Charm",
+            "category": "Women"
+        }
+    },
+    {
+        "model": "myapp.Produit",
+        "pk": 18,
+        "fields": {
+            "nom": "Luxe Appeal",
+            "prix": 841.88,
+            "quantite": 88,
+            "image": "photos/pict17.jpeg",
+            "description": "This is the description of Luxe Appeal",
+            "category": "Women"
+        }
+    },
+    {
+        "model": "myapp.Produit",
+        "pk": 19,
+        "fields": {
+            "nom": "Celestial Glow",
+            "prix": 805.61,
+            "quantite": 81,
+            "image": "photos/pict18.jpeg",
+            "description": "This is the description of Celestial Glow",
+            "category": "Women"
+        }
+    },
+    {
+        "model": "myapp.Produit",
+        "pk": 20,
+        "fields": {
+            "nom": "Mystic Harmony",
+            "prix": 554.52,
+            "quantite": 19,
+            "image": "photos/pict19.jpeg",
+            "description": "This is the description of Mystic Harmony",
+            "category": "Women"
+        }
+    },
+    {
+        "model": "myapp.Produit",
+        "pk": 21,
+        "fields": {
+            "nom": "Chic Silhouette",
+            "prix": 640.29,
+            "quantite": 70,
+            "image": "photos/pict20.jpeg",
+            "description": "This is the description of Chic Silhouette",
+            "category": "Women"
+        }
+    },
+    {
+        "model": "myapp.Produit",
+        "pk": 22,
+        "fields": {
+            "nom": "Dazzling Delight",
+            "prix": 577.84,
+            "quantite": 68,
+            "image": "photos/pict21.jpeg",
+            "description": "This is the description of Dazzling Delight",
+            "category": "Women"
+        }
+    },
+    {
+        "model": "myapp.Produit",
+        "pk": 23,
+        "fields": {
+            "nom": "Gentle Grace",
+            "prix": 632.88,
+            "quantite": 41,
+            "image": "photos/pict22.jpeg",
+            "description": "This is the description of Gentle Grace",
+            "category": "Women"
+        }
+    },
+    {
+        "model": "myapp.Produit",
+        "pk": 24,
+        "fields": {
+            "nom": "Luxe Layers",
+            "prix": 445.78,
+            "quantite": 57,
+            "image": "photos/pict23.jpeg",
+            "description": "This is the description of Luxe Layers",
+            "category": "Women"
+        }
+    },
+    {
+        "model": "myapp.Produit",
+        "pk": 25,
+        "fields": {
+            "nom": "Vibrant Flair",
+            "prix": 819.22,
+            "quantite": 14,
+            "image": "photos/pict24.jpeg",
+            "description": "This is the description of Vibrant Flair",
+            "category": "Women"
+        }
+    }
+]

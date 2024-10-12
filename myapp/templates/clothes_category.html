@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/header.css' %}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    
+    
+    {% include "header.html" %}
+    {% load static %}
+    <section class="parallax-section" id="section2" style="background-image: url('{% static 'img/picture4.jpg' %}');">   
+        <div class="overlay">
+       <h1>Welcome to the {{ category }} Section</h1>
+       <p></p>
+    </div>
+    </section>
+    <div class="cta-banner">
+        <h2>Shop by Category</h2>
+        <p>Find exactly what you're looking for!</p>
+    </div>
+    <div class="sale-banner">
+        <div class="sale-banner-container">
+            <p>🔥 50% OFF on all products! Limited Time Offer! 🔥</p>
+            <p>🎉 Free shipping on orders over $50! 🎉</p>
+            <p>💥 New arrivals are now available! Check them out! 💥</p>
+            <p>🔥 50% OFF on all products! Limited Time Offer! 🔥</p>
+            <p>🎉 Free shipping on orders over $50! 🎉</p>
+            <p>💥 New arrivals are now available! Check them out! 💥</p>
+            <p>🔥 50% OFF on all products! Limited Time Offer! 🔥</p>
+            <p>🎉 Free shipping on orders over $50! 🎉</p>
+            <p>💥 New arrivals are now available! Check them out! 💥</p>
+            <p>🔥 50% OFF on all products! Limited Time Offer! 🔥</p>
+            <p>🎉 Free shipping on orders over $50! 🎉</p>
+            <p>💥 New arrivals are now available! Check them out! 💥</p>
+            <p>🔥 50% OFF on all products! Limited Time Offer! 🔥</p>
+            <p>🎉 Free shipping on orders over $50! 🎉</p>
+            <p>💥 New arrivals are now available! Check them out! 💥</p>
+            <p>🔥 50% OFF on all products! Limited Time Offer! 🔥</p>
+            <p>🎉 Free shipping on orders over $50! 🎉</p>
+            <p>💥 New arrivals are now available! Check them out! 💥</p>
+        </div>
+    </div>
+    <section>
+        <div class="product-grid">
+            {% for product in products %}
+                <div class="product-item">
+                    <div class="product-info">
+                        <h2 class="product-name">{{product.nom}}</h2>
+                        <p class="product-price">${{product.prix}}</p>
+                    </div>
+                    <img src="{{product.image.url}}" alt="{{product.nom}}" class="product-image">
+                    <div class="product-rating">
+                        <span>★★★★☆</span>
+                    </div>
+                    <button class="add-to-cart-btn" value={{product.id}}>
+                        <img src="{% static 'img/icon8.png' %}" alt="Add to Cart"> Add to Cart
+                    </button>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+    <script>
+        const words = ["Discover Your Style", "Elevate Your Life"];
+        let wordIndex = 0;
+        let letterIndex = 0;
+        let isDeleting = false;
+        const typingSpeed = 150;
+        const deletingSpeed = 100;
+        const delayBetweenWords = 1000; // Delay before moving to the next word
+        const typewriterElement = document.querySelector('.overlay p');
+
+        function type() {
+            const currentWord = words[wordIndex];
+            
+            // If we are not deleting, increment the letter index
+            if (!isDeleting) {
+                letterIndex++;
+            } else {
+                // If we are deleting, decrement the letter index
+                letterIndex--;
+            }
+            
+            // Display the current substring of the word
+            typewriterElement.textContent = currentWord.substring(0, letterIndex);
+            
+            // If the word is fully typed out and we are not deleting, wait and start deleting
+            if (letterIndex === currentWord.length && !isDeleting) {
+                setTimeout(() => isDeleting = true, delayBetweenWords);
+            }
+            
+            // If the word is fully deleted, move to the next word and start typing again
+            if (letterIndex === 0 && isDeleting) {
+                isDeleting = false;
+                wordIndex = (wordIndex + 1) % words.length; // Loop through words
+            }
+            
+            // Set a new timeout to type the next letter (or delete a letter)
+            const speed = isDeleting ? deletingSpeed : typingSpeed;
+            setTimeout(type, speed);
+        }
+        
+        // Start the typewriter effect
+        document.addEventListener('DOMContentLoaded', () => {
+            type();
+        })
+
+
+        $(document).on('click','.add-to-cart-btn',function(e){
+       e.preventDefault();
+       $.ajax({
+           type:'POST',
+           url:'{% url "myapp:add" %}',
+           data:{
+
+               product_id:$(this).val(),
+               csrfmiddlewaretoken: '{{csrf_token}}',
+               action:'post'
+           },
+           success:function(json){
+           console.log(json.length)
+              document.querySelector('.cart-count').textContent=json.length;
+               /*
+               if("last_product" in json){
+               let img=document.createElement('img');
+               let name=document.createElement("h1");
+               let price=document.createElement("div");
+               let select_qte=document.querySelector('select.quantity').cloneNode(true)
+               img.src= json.last_product.img;
+               name.textContent=json.last_product.name;
+               price.textContent="$"+json.last_product.price;
+               
+               let list=document.getElementById("shop_cart");
+               list.append(img,name,price,select_qte);
+               document.getElementById("cartTab").appendChild(list)
+               }
+
+               console.log(json);
+           
+*/
+               
+           },
+
+           error:function(xhr,errmsg,err){
+            console.log("failled")
+           }
+       });
+   })
+    </script>
+    
+    {%include "footer.html" %}
+</body>
+</html>
+

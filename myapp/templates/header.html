@@ -18,7 +18,7 @@
                 <ul>
                     <li><a href="{%  url 'myapp:home' %}">Home</a></li>
                     <li><a href="{% url 'myapp:product_list' %}">Shop</a></li>
-                    <li><a href="#section3">Contact us</a></li>
+                    <li><a href="{% url 'myapp:contact_us' %}">Contact us</a></li>
                     <li><a href="{% url 'myapp:profile' %}">Account</a></li>
                     <li class="cart-icon"><a href="{% url 'myapp:cartTab' %}">
                          <img src="{% static 'img/icon_cart.png' %}" alt="Cart Icon">

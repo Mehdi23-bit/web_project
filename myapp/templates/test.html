@@ -1,0 +1,39 @@
+{% if cart.get_prod.items %}
+{% for key, item in cart.get_prod.items %}
+
+    <tr>
+        <td>
+            <div class="item-details">
+                <img src="{{ item.img }}" alt="{{ item.name }}">
+                <div class="item-info">
+                    <h3>{{ item.name }}</h3>
+                    <div class="price">${{ item.price }} USD</div>
+                </div>
+            </div>
+        </td>
+        <td>
+            <div class="quantity">
+                <select name="quantity" class="quantity">
+                    <option value="1" {% if item.qte == 1 %}selected{% endif %}>1</option>
+                    <option value="2" {% if item.qte == 2 %}selected{% endif %}>2</option>
+                    <option value="3" {% if item.qte == 3 %}selected{% endif %}>3</option>
+                    <option value="4" {% if item.qte == 4 %}selected{% endif %}>4</option>
+                    <option value="5" {% if item.qte == 5 %}selected{% endif %}>5</option>
+                </select>
+                <button class="update" value="{{ item.id }}">Update</button>
+            </div>
+        </td>
+        <td class="total">{{item.total}}
+            <button class="delete" value="{{ item.id }}">delete</button>
+        </td>
+        
+    </tr>
+
+    {% endfor %}
+
+    {% else %}
+    <tr>
+        <td colspan="4"style="text-align: center; font-size: 24px; font-weight: bold; padding: 20px;">Your cart is currently empty</td>
+    </tr>
+
+    {%endif%}

@@ -44,8 +44,9 @@ def login_(request):
             password = form.cleaned_data['password']
             user = authenticate(username=username, password=password)
             user_data, created = UserPersistentData.objects.get_or_create(user=user)
-            #if user is not None:
-            user_data.save()
+             
+            if created:
+              user_data.save()
             request.session['session_key'] = load_persistent_data(user)
             login(request, user)
             if user.is_superuser:

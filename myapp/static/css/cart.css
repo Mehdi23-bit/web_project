@@ -1,0 +1,156 @@
+/* Cart content: product list on the left, checkout section on the right */
+.cart-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+/* Product list should be the main content on the left */
+.cart-items {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* 
+    Space between each product */
+}
+
+/* Each cart item is laid out horizontally */
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 0;
+    border-bottom: 1px solid #ddd;
+    position: relative;
+    padding: 20px 0;
+    width: 752px;
+}
+
+/* Product image on the left */
+.product-image {
+    width: 120px;
+    margin-right: 20px;
+}
+.product-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+/* Product details next to the image */
+.product-details {
+    flex-grow: 1;
+    max-width: 400px;
+}
+.product-details h2 {
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+}
+.product-details p {
+    margin: 5px 0;
+    color: #666;
+    font-size: 14px;
+}
+
+/* Actions (Edit, Remove, etc.) moved to the bottom */
+.actions {
+    position: absolute;
+    bottom: 10px;
+    left: 130px;
+    margin-top: 10px;
+}
+.actions a {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 14px;
+    margin-right: 10px;
+}
+.actions a:hover {
+    text-decoration: underline;
+}
+
+/* Align price, quantity, and total in a single row */
+.product-pricing {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+    min-width: 300px;
+}
+
+/* Price section */
+.price-label {
+    text-align: right;
+    margin-right: 20px;
+}
+.each-price {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+/* Quantity dropdown */
+.quantity {
+    text-align: right;
+}
+.quantity select {
+    width: 60px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Total price */
+.total-price {
+    font-size: 16px;
+    font-weight: bold;
+    text-align: right;
+    margin-left: 20px;
+}
+
+/* Checkout section to the right */
+.cart-checkout {
+    width: 408px;
+    margin-left: 20px;
+}
+
+
+/* Order summary */
+.cart-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+/* Order summary section */
+.order-summary {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-top: 10px;
+    font-size: 16px;
+    margin-right: 20px; /* Push the summary towards the right */
+    text-align: right; /* Align text to the right */
+}
+
+.order-summary p {
+    margin: 5px 0;
+}
+
+/* Checkout button aligned below the total and estimated total */
+.checkout-btn {
+    margin-top: 20px;
+    width: 100%;
+    padding: 12px 20px;
+    background-color: #ff9900;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    text-align: center;
+    align-self: flex-end; /* Align button to the right */
+}
+
+.checkout-btn:hover {
+    background-color: #e08900;
+}

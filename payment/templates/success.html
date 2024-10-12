@@ -36,6 +36,26 @@
         $(document).ready(function() {
             checkPaymentStatus();  // Start checking as soon as page loads
         });
+
+        function clearCart() {
+    $.ajax({
+        url: '{% url "payment:clear" %}',  // Update this URL to match your project's URL structure
+        method: 'POST',
+        data: {
+            csrfmiddlewaretoken: "{{ csrf_token }}"
+        },
+        success: function(response) {
+            console.log('cart is cleared');
+        },
+        error: function() {
+            console.log('Error clearing cart');
+        }
+    });
+}
+
+$(document).ready(function() {
+    clearCart();
+});
     </script>
 </body>
 </html>
